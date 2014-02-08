@@ -20,8 +20,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                                 |      |      | PgUp |       | Pause|      |      |
      *                                 `--------------------'       `--------------------'
      */
-
-    KEYMAP(  // layout: layer 0: default
+    KEYMAP(
         // left hand
          ESC,    1,    2,    3,    4,    5,    6,
          TAB,    Q,    W,    E,    R,    T,   NO,
@@ -42,25 +41,47 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         PAUS,  ENT, SPC
     ),
 
-    KEYMAP(  // layout: layer 1: F-keys instead of numbers
+    /* Keymap 1: Fn keys, number pad, mouse controls
+     *
+     * ,--------------------------------------------------.           ,--------------------------------------------------.
+     * | L0     |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |  Nop   |
+     * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+     * | Nop    |  Nop |MousUp|  Nop |  Nop |  Nop |  Nop |           |  Nop |  Nop |   7  |   8  |   9  |  Nop |  Nop   |
+     * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+     * | Nop    |MousLf|MousDn|MousRt|  Nop |  Nop |------|           |------|  Nop |   4  |   5  |   6  |  Nop |  Nop   |
+     * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
+     * | Nop    |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |   1  |   2  |   3  |  Nop |  Nop   |
+     * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+     *   | Btn1 |  Nop |  Nop |  Nop |  Nop |                                       |   0  |   0  |   .  |  Nop |  Nop |
+     *   `----------------------------------'                                       `----------------------------------'
+     *                                        ,-------------.       ,-------------.
+     *                                        |  Nop |  Nop |       | Mute |  Nop |
+     *                                 ,------|------|------|       |------+------+------.
+     *                                 |      |      | TRNS |       | VolUp|      |      |
+     *                                 | Btn2 | TRNS |------|       |------| TRNS | TRNS |
+     *                                 |      |      | TRNS |       | VolDn|      |      |
+     *                                 `--------------------'       `--------------------'
+     */
+
+    KEYMAP(
         // left hand
          FN0,   F1,   F2,   F3,   F4,   F5,   F6,
           NO,   NO, MS_U,   NO,   NO,   NO,   NO,
           NO, MS_L, MS_D, MS_R,   NO,   NO,
-          NO,   NO,   NO,   NO,   NO,   NO,  FN0,
+          NO,   NO,   NO,   NO,   NO,   NO, TRNS,
         BTN1,   NO,   NO,   NO,   NO,
                                         NO,   NO,
-                                            WH_U,
-                                BTN3,   NO, WH_D,
+                                            TRNS,
+                                BTN2, TRNS, TRNS,
         // right hand
           F7,   F8,   F9,  F10,  F11,  F12,   NO,
           NO,   NO,   P7,   P8,   P9,   NO,   NO,
                 NO,   P4,   P5,   P6,   NO,   NO,
-         FN0,   NO,   P1,   P2,   P3,   NO,   NO,
+        TRNS,   NO,   P1,   P2,   P3,   NO,   NO,
                       P0,   P0,  DOT,   NO,   NO,
-          NO,   NO,
-          NO,
-          NO, TRNS, TRNS
+        MUTE,   NO,
+        VOLU,
+        VOLD, TRNS, TRNS
     ),
 };
 
@@ -73,8 +94,8 @@ enum function_id {
  * Fn action definition
  */
 static const uint16_t PROGMEM fn_actions[] = {
-  ACTION_LAYER_SET(0, ON_RELEASE),                // FN1 - switch to layer0
-  ACTION_LAYER_TAP_TOGGLE(1)                      // FN2 - tap/toggle Layer1
+  ACTION_LAYER_SET(0, ON_RELEASE),                // FN0 - switch to layer0
+  ACTION_LAYER_TAP_TOGGLE(1)                      // FN1 - tap/toggle Layer1
 };
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
