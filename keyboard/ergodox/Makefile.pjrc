@@ -115,4 +115,6 @@ micro: all
 cub: OPT_DEFS += -DKEYMAP_CUB
 cub: all
 
+j: OPT_DEFS += -DKEYMAP_J
+j: all
 
