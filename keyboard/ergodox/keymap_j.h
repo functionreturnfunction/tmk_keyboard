@@ -52,13 +52,13 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
      * | Nop    |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |   1  |   2  |   3  |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | Btn1 |  Nop |  Nop |  Nop |  Nop |                                       |   0  |   0  |   .  |  Nop |  Nop |
+     *   | Btn2 |  Nop |  Nop |  Nop |  Nop |                                       |   0  |   0  |   .  |  Nop |  Nop |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        |  Nop |  Nop |       | Mute |  Nop |
      *                                 ,------|------|------|       |------+------+------.
      *                                 |      |      | TRNS |       | VolUp|      |      |
-     *                                 | Btn2 | TRNS |------|       |------| TRNS | TRNS |
+     *                                 | Btn1 | TRNS |------|       |------| TRNS | TRNS |
      *                                 |      |      | TRNS |       | VolDn|      |      |
      *                                 `--------------------'       `--------------------'
      */
@@ -69,10 +69,10 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           NO,   NO, MS_U,   NO,   NO,   NO,   NO,
           NO, MS_L, MS_D, MS_R,   NO,   NO,
           NO,   NO,   NO,   NO,   NO,   NO, TRNS,
-        BTN1,   NO,   NO,   NO,   NO,
+        BTN2,   NO,   NO,   NO,   NO,
                                         NO,   NO,
                                             TRNS,
-                                BTN2, TRNS, TRNS,
+                                BTN1, TRNS, TRNS,
         // right hand
           F7,   F8,   F9,  F10,  F11,  F12,   NO,
           NO,   NO,   P7,   P8,   P9,   NO,   NO,
