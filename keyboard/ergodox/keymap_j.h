@@ -66,8 +66,8 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(
         // left hand
          FN0,   F1,   F2,   F3,   F4,   F5,   F6,
-          NO,   NO, MS_U,   NO,   NO,   NO,   NO,
-          NO, MS_L, MS_D, MS_R,   NO,   NO,
+         FN2,   NO, MS_U,   NO,   NO,   NO,   NO,
+         FN3, MS_L, MS_D, MS_R,   NO,   NO,
           NO,   NO,   NO,   NO,   NO,   NO, TRNS,
         BTN2,   NO,   NO,   NO,   NO,
                                         NO,   NO,
@@ -90,25 +90,55 @@ enum function_id {
     TEENSY_KEY,
 };
 
+/* id for user-defined macros */
+enum macro_id {
+  INDENT,
+  INDENT_BUFFER
+};
+
+const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
+{
+  keyevent_t event = record->event;
+  tap_t tap = record->tap;
+
+  switch (id) {
+    case INDENT:
+      // move to the beginning of the line, press tab, move to the next line
+      return (event.pressed ?
+              MACRO(D(LCTRL), T(A), U(LCTRL), T(TAB), D(LCTRL), T(N), U(LCTRL), END) :
+              MACRO_NONE);
+    case INDENT_BUFFER:
+      // highlight the current buffer, call indent-region
+      return (event.pressed ?
+              MACRO(D(LCTRL), T(X), U(LCTRL), T(H), D(LCTRL), D(LALT), T(BSLS), U(LALT), D(LCTRL), END) :
+              MACRO_NONE);
+  }
+
+  return MACRO_NONE;
+}
+
 /*
  * Fn action definition
  */
 static const uint16_t PROGMEM fn_actions[] = {
   ACTION_LAYER_SET(0, ON_RELEASE),                // FN0 - switch to layer0
-  ACTION_LAYER_TAP_TOGGLE(1)                      // FN1 - tap/toggle Layer1
+  ACTION_LAYER_TAP_TOGGLE(1),                     // FN1 - tap/toggle Layer1
+
+  ACTION_MACRO(INDENT),                           // FN2 - indent current line
+  ACTION_MACRO(INDENT_BUFFER),                    // FN3 - indent current buffer
 };
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
 {
-    print("action_function called\n");
-    print("id  = "); phex(id); print("\n");
-    print("opt = "); phex(opt); print("\n");
-    if (id == TEENSY_KEY) {
-        clear_keyboard();
-        print("\n\nJump to bootloader... ");
-        _delay_ms(250);
-        bootloader_jump(); // should not return
-        print("not supported.\n");
-    }
+  print("action_function called\n");
+  print("id  = "); phex(id); print("\n");
+  print("opt = "); phex(opt); print("\n");
+  if (id == TEENSY_KEY) {
+    clear_keyboard();
+    print("\n\nJump to bootloader... ");
+    _delay_ms(250);
+    bootloader_jump(); // should not return
+    print("not supported.\n");
+  }
 }
 
