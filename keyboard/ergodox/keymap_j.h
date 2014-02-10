@@ -29,7 +29,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LCTL,   NO, LGUI, LALT, LALT,
                                       HOME,  END,
                                             PGUP,
-                                 SPC, BSPC, PGDN,
+                                 FN6, BSPC, PGDN,
         // right hand
          GRV,    7,    8,    9,    0, MINS,  EQL,
         LBRC,    Y,    U,    I,    O,    P, RBRC,
@@ -46,7 +46,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * | L0     |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 | HshRckt|
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Indent |  Nop |MousUp|  Nop |  Nop |  Nop |  Nop |           |  Nop |  Nop |   7  |   8  |   9  |  Nop |  Nop   |
+     * | Indent |  Nop |MousUp|  Nop |  Nop |  Nop |  Nop |           |Braces|  Nop |   7  |   8  |   9  |  Nop |  Nop   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * | IndentB|MousLf|MousDn|MousRt|  Nop |  Nop |------|           |------|  Nop |   4  |   5  |   6  |  Nop |  Nop   |
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
@@ -75,7 +75,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 BTN1, TRNS, TRNS,
         // right hand
           F7,   F8,   F9,  F10,  F11,  F12,  FN4,
-          NO,   NO,   P7,   P8,   P9,   NO,   NO,
+         FN5,   NO,   P7,   P8,   P9,   NO,   NO,
                 NO,   P4,   P5,   P6,   NO,   NO,
         TRNS,   NO,   P1,   P2,   P3,   NO,   NO,
                       P0,   P0,  DOT,   NO,   NO,
@@ -94,7 +94,8 @@ enum function_id {
 enum macro_id {
     INDENT,
     INDENT_BUFFER,
-    HASH_ROCKET
+    HASH_ROCKET,
+    BRACES
 };
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
@@ -113,9 +114,15 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             return (event.pressed ?
                     MACRO(D(LCTRL), T(X), U(LCTRL), T(H), D(LCTRL), D(LALT), T(BSLS), U(LALT), U(LCTRL), END) :
                     MACRO_NONE);
+            // =>
         case HASH_ROCKET:
             return (event.pressed ?
                     MACRO(T(EQL), D(LSFT), T(DOT), U(LSFT), END) :
+                    MACRO_NONE);
+            // open curly brace, enter, tab
+        case BRACES:
+            return (event.pressed ?
+                    MACRO(D(LSFT), T(LBRC), U(LSFT), T(ENT), T(TAB), END) :
                     MACRO_NONE);
     }
 
@@ -132,6 +139,9 @@ static const uint16_t PROGMEM fn_actions[] = {
     ACTION_MACRO(INDENT),                           // FN2 - indent current line
     ACTION_MACRO(INDENT_BUFFER),                    // FN3 - indent current buffer
     ACTION_MACRO(HASH_ROCKET),                      // FN4 - type hash rocket
+    ACTION_MACRO(BRACES),                           // FN5 - curly braces
+
+    ACTION_MODS_TAP_KEY(MOD_LALT, KC_SPC),          // FN6 - space when tapped, alt when held
 };
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
@@ -147,4 +157,3 @@ void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
         print("not supported.\n");
     }
 }
-
