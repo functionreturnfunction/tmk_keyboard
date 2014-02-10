@@ -10,7 +10,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------| ~L1  |           | ~L1  |------+------+------+------+------+--------|
      * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | LCtrl| Nop  | LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RCtrl|
+     *   | LCtrl| Nop  | LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RAlt |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        | Home | End  |       | Del  | Ins  |
@@ -35,7 +35,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LBRC,    Y,    U,    I,    O,    P, RBRC,
                  H,    J,    K,    L, SCLN, QUOT,
          FN1,    N,    M, COMM,  DOT, SLSH, RSFT,
-                    LEFT, DOWN,   UP, RGHT, RCTL,
+                    LEFT, DOWN,   UP, RGHT, RALT,
          DEL,  INS,
         PSCR,
         PAUS,  ENT, SPC
@@ -50,9 +50,9 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * | IndentB|MousLf|MousDn|MousRt|  Nop |  Nop |------|           |------|  Nop |   4  |   5  |   6  |  Nop |  Nop   |
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
-     * | Nop    |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |   1  |   2  |   3  |  Nop |  Nop   |
+     * | TRNS   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |   1  |   2  |   3  |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | Btn2 |  Nop |  Nop |  Nop |  Nop |                                       |   0  |   0  |   .  |  Nop |  Nop |
+     *   | TRNS | Btn2 | TRNS | TRNS | TRNS |                                       |   0  |   0  |   .  |  Nop |  Nop |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        |  Nop |  Nop |       | Mute |  Nop |
@@ -68,8 +68,8 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          FN0,   F1,   F2,   F3,   F4,   F5,   F6,
          FN2,   NO, MS_U,   NO,   NO,   NO,   NO,
          FN3, MS_L, MS_D, MS_R,   NO,   NO,
-          NO,   NO,   NO,   NO,   NO,   NO, TRNS,
-        BTN2,   NO,   NO,   NO,   NO,
+        TRNS,   NO,   NO,   NO,   NO,   NO, TRNS,
+        TRNS, BTN2, TRNS, TRNS, TRNS,
                                         NO,   NO,
                                             TRNS,
                                 BTN1, TRNS, TRNS,
@@ -111,11 +111,11 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
         case INDENT_BUFFER:
             // highlight the current buffer, call indent-region
             return (event.pressed ?
-                    MACRO(D(LCTRL), T(X), U(LCTRL), T(H), D(LCTRL), D(LALT), T(BSLS), U(LALT), D(LCTRL), END) :
+                    MACRO(D(LCTRL), T(X), U(LCTRL), T(H), D(LCTRL), D(LALT), T(BSLS), U(LALT), U(LCTRL), END) :
                     MACRO_NONE);
         case HASH_ROCKET:
             return (event.pressed ?
-                    MACRO(T(EQL), D(LSFT), T(COMM), U(LSFT), END) :
+                    MACRO(T(EQL), D(LSFT), T(DOT), U(LSFT), END) :
                     MACRO_NONE);
     }
 
