@@ -15,7 +15,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                                        ,-------------.       ,-------------.
      *                                        | Home | End  |       | Del  | Ins  |
      *                                 ,------|------|------|       |------+------+------.
-     *                                 |      |      | PgDn |       | PrScr|      |      |
+     *                                 | L2/  |      | PgDn |       | PrScr|      |      |
      *                                 | Space| BkSpc|------|       |------| Enter| Space|
      *                                 |      |      | PgUp |       | Pause|      |      |
      *                                 `--------------------'       `--------------------'
@@ -87,7 +87,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Keymap 2: Macro Keys
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
-     * |  L0    |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |           |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
+     * |  L0    |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
      * | Indent |  Nop |  Nop |  Nop |  Nop | Type | TRNS |           |Braces|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -117,7 +117,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                         NO,
                             TRNS,  NO,  NO,
         // right hand
-          NO,  NO,  NO,  NO,  NO,  NO, FN6,
+        FN10,  NO,  NO,  NO,  NO,  NO, FN6,
          FN7,  NO,  NO,  NO,  NO,  NO,  NO,
                NO,  NO,  NO,  NO,  NO,  NO,
           NO,  NO,  NO,  NO,  NO,  NO,  NO,
@@ -184,6 +184,7 @@ enum macro_id {
     BRACES,
     FIND_FILE,
     FIND_TYPE,
+    HOME_PATH,
 };
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
@@ -212,13 +213,20 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             return (event.pressed ?
                     MACRO(D(LSFT), T(LBRC), U(LSFT), T(ENT), T(TAB), END) :
                     MACRO_NONE);
+            // C-x, C-f
         case FIND_FILE:
             return (event.pressed ?
                     MACRO(D(LCTRL), T(X), T(F), U(LCTRL), END) :
                     MACRO_NONE);
+            // C-c, C-t (visual studio)
         case FIND_TYPE:
             return (event.pressed ?
                     MACRO(D(LCTRL), T(C), T(T), U(LCTRL), END) :
+                    MACRO_NONE);
+            // ~/
+        case HOME_PATH:
+            return (event.pressed ?
+                    MACRO(D(LSFT), T(GRV), U(LSFT), T(SLSH), END) :
                     MACRO_NONE);
     }
 
@@ -229,17 +237,18 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
  * Fn action definition
  */
 static const uint16_t PROGMEM fn_actions[] = {
-    ACTION_LAYER_SET(0, ON_RELEASE),                // FN0 - switch to layer0
-    ACTION_LAYER_TAP_TOGGLE(1),                     // FN1 - tap/toggle Layer1
-    ACTION_LAYER_TAP_KEY(2, KC_SPC),                // FN2 - space when tapped, layer2 when held
-    ACTION_LAYER_TOGGLE(3),                         // FN3 - toggle layer 3
+    ACTION_LAYER_SET(0, ON_RELEASE),                // FN0  - switch to layer0
+    ACTION_LAYER_TAP_TOGGLE(1),                     // FN1  - tap/toggle Layer1
+    ACTION_LAYER_TAP_KEY(2, KC_SPC),                // FN2  - space when tapped, layer2 when held
+    ACTION_LAYER_TOGGLE(3),                         // FN3  - toggle layer 3
 
-    ACTION_MACRO(INDENT),                           // FN4 - indent current line
-    ACTION_MACRO(INDENT_BUFFER),                    // FN5 - indent current buffer
-    ACTION_MACRO(HASH_ROCKET),                      // FN6 - type hash rocket
-    ACTION_MACRO(BRACES),                           // FN7 - curly braces
-    ACTION_MACRO(FIND_FILE),                        // FN8 - find file
-    ACTION_MACRO(FIND_TYPE),                        // FN9 - find type
+    ACTION_MACRO(INDENT),                           // FN4  - indent current line
+    ACTION_MACRO(INDENT_BUFFER),                    // FN5  - indent current buffer
+    ACTION_MACRO(HASH_ROCKET),                      // FN6  - type hash rocket
+    ACTION_MACRO(BRACES),                           // FN7  - curly braces
+    ACTION_MACRO(FIND_FILE),                        // FN8  - find file
+    ACTION_MACRO(FIND_TYPE),                        // FN9  - find type
+    ACTION_MACRO(HOME_PATH),                        // FN10 - type ~/
 };
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
