@@ -169,7 +169,7 @@ uint8_t matrix_scan(void)
     ergodox_left_led_2_off();
     ergodox_left_led_3_off();
 
-    if (layer == 1) {
+    if (layer > 0) {
       ergodox_board_led_on();
     }
 #endif

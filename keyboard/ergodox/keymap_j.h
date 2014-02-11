@@ -29,7 +29,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LCTL,   NO, LGUI, LALT, LALT,
                                       HOME,  END,
                                             PGUP,
-                                 FN6, BSPC, PGDN,
+                                 FN2, BSPC, PGDN,
         // right hand
          GRV,    7,    8,    9,    0, MINS,  EQL,
         LBRC,    Y,    U,    I,    O,    P, RBRC,
@@ -44,13 +44,13 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Keymap 1: Fn keys, number pad, mouse controls
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
-     * | L0     |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 | HshRckt|
+     * |  L0    |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |  Nop   |
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Indent |  Nop |MousUp|  Nop |  Nop |  Nop |  Nop |           |Braces|  Nop |   7  |   8  |   9  |  Nop |  Nop   |
+     * |  TRNS  |  Nop |MousUp|  Nop |  Nop |  Nop |  Nop |           |  Nop |  Nop |   7  |   8  |   9  |  Nop |  Nop   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-     * | IndentB|MousLf|MousDn|MousRt|  Nop |  Nop |------|           |------|  Nop |   4  |   5  |   6  |  Nop |  Nop   |
+     * |  Nop   |MousLf|MousDn|MousRt|  Nop |  Nop |------|           |------|  Nop |   4  |   5  |   6  |  Nop |  Nop   |
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
-     * | TRNS   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |   1  |   2  |   3  |  Nop |  Nop   |
+     * |  TRNS  |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |   1  |   2  |   3  |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
      *   | TRNS | Btn2 | TRNS | TRNS | TRNS |                                       |   0  |   0  |   .  |  Nop |  Nop |
      *   `----------------------------------'                                       `----------------------------------'
@@ -66,22 +66,65 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(
         // left hand
          FN0,   F1,   F2,   F3,   F4,   F5,   F6,
-         FN2,   NO, MS_U,   NO,   NO,   NO,   NO,
-         FN3, MS_L, MS_D, MS_R,   NO,   NO,
+        TRNS,   NO, MS_U,   NO,   NO,   NO,   NO,
+          NO, MS_L, MS_D, MS_R,   NO,   NO,
         TRNS,   NO,   NO,   NO,   NO,   NO, TRNS,
         TRNS, BTN2, TRNS, TRNS, TRNS,
                                         NO,   NO,
                                             TRNS,
                                 BTN1, TRNS, TRNS,
         // right hand
-          F7,   F8,   F9,  F10,  F11,  F12,  FN4,
-         FN5,   NO,   P7,   P8,   P9,   NO,   NO,
+          F7,   F8,   F9,  F10,  F11,  F12,   NO,
+          NO,   NO,   P7,   P8,   P9,   NO,   NO,
                 NO,   P4,   P5,   P6,   NO,   NO,
         TRNS,   NO,   P1,   P2,   P3,   NO,   NO,
                       P0,   P0,  DOT,   NO,   NO,
         MUTE,   NO,
         VOLU,
         VOLD, TRNS, TRNS
+    ),
+
+    /* Keymap 2: Macro Keys
+     *
+     * ,--------------------------------------------------.           ,--------------------------------------------------.
+     * |  L0    |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |           |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
+     * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+     * | Indent |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |           |Braces|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+     * | IndentB|  Nop |  Nop |  Nop |  Nop |  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
+     * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+     *   |  Nop |  Nop |  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |  Nop |
+     *   `----------------------------------'                                       `----------------------------------'
+     *                                        ,-------------.       ,-------------.
+     *                                        |  Nop |  Nop |       |  Nop |  Nop |
+     *                                 ,------|------|------|       |------+------+------.
+     *                                 |      |      |  Nop |       |  Nop |      |      |
+     *                                 |  Nop |  Nop |------|       |------|  Nop | TRNS |
+     *                                 |      |      |  Nop |       |  Nop |      |      |
+     *                                 `--------------------'       `--------------------'
+     */
+
+    KEYMAP(
+        // left hand
+         FN0,  NO,  NO,  NO,  NO,  NO,  NO,
+         FN3,  NO,  NO,  NO,  NO,  NO,  NO,
+         FN4,  NO,  NO,  NO,  NO,  NO,
+          NO,  NO,  NO,  NO,  NO,  NO,  NO,
+          NO,  NO,  NO,  NO,  NO,
+                                   NO,  NO,
+                                        NO,
+                            TRNS,  NO,  NO,
+        // right hand
+          NO,  NO,  NO,  NO,  NO,  NO, FN5,
+         FN6,  NO,  NO,  NO,  NO,  NO,  NO,
+               NO,  NO,  NO,  NO,  NO,  NO,
+          NO,  NO,  NO,  NO,  NO,  NO,  NO,
+                    NO,  NO,  NO,  NO,  NO,
+          NO,  NO,
+          NO,
+          NO,  NO,TRNS
     ),
 };
 
@@ -135,13 +178,12 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 static const uint16_t PROGMEM fn_actions[] = {
     ACTION_LAYER_SET(0, ON_RELEASE),                // FN0 - switch to layer0
     ACTION_LAYER_TAP_TOGGLE(1),                     // FN1 - tap/toggle Layer1
+    ACTION_LAYER_TAP_KEY(2, KC_SPC),                // FN2 - space when tapped, layer2 when held
 
-    ACTION_MACRO(INDENT),                           // FN2 - indent current line
-    ACTION_MACRO(INDENT_BUFFER),                    // FN3 - indent current buffer
-    ACTION_MACRO(HASH_ROCKET),                      // FN4 - type hash rocket
-    ACTION_MACRO(BRACES),                           // FN5 - curly braces
-
-    ACTION_MODS_TAP_KEY(MOD_LALT, KC_SPC),          // FN6 - space when tapped, alt when held
+    ACTION_MACRO(INDENT),                           // FN3 - indent current line
+    ACTION_MACRO(INDENT_BUFFER),                    // FN4 - indent current buffer
+    ACTION_MACRO(HASH_ROCKET),                      // FN5 - type hash rocket
+    ACTION_MACRO(BRACES),                           // FN6 - curly braces
 };
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
@@ -157,3 +199,47 @@ void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
         print("not supported.\n");
     }
 }
+
+
+    /* Empty template for new layers
+     *
+     * Layer N:
+     * ,--------------------------------------------------.           ,--------------------------------------------------.
+     * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |           |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+     * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |           |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+     * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
+     * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+     *   |  Nop |  Nop |  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |  Nop |
+     *   `----------------------------------'                                       `----------------------------------'
+     *                                        ,-------------.       ,-------------.
+     *                                        |  Nop |  Nop |       |  Nop |  Nop |
+     *                                 ,------|------|------|       |------+------+------.
+     *                                 |      |      |  Nop |       |  Nop |      |      |
+     *                                 |  Nop |  Nop |------|       |------|  Nop |  Nop |
+     *                                 |      |      |  Nop |       |  Nop |      |      |
+     *                                 `--------------------'       `--------------------'
+    KEYMAP(
+        // left hand
+          NO,  NO,  NO,  NO,  NO,  NO,  NO,
+          NO,  NO,  NO,  NO,  NO,  NO,  NO,
+          NO,  NO,  NO,  NO,  NO,  NO,
+          NO,  NO,  NO,  NO,  NO,  NO,  NO,
+          NO,  NO,  NO,  NO,  NO,
+                                   NO,  NO,
+                                        NO,
+                              NO,  NO,  NO,
+        // right hand
+          NO,  NO,  NO,  NO,  NO,  NO,  NO,
+          NO,  NO,  NO,  NO,  NO,  NO,  NO,
+               NO,  NO,  NO,  NO,  NO,  NO,
+          NO,  NO,  NO,  NO,  NO,  NO,  NO,
+                    NO,  NO,  NO,  NO,  NO,
+          NO,  NO,
+          NO,
+          NO,  NO,  NO
+    ),
+     */
