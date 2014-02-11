@@ -52,7 +52,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
      * |  TRNS  |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |   1  |   2  |   3  |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | TRNS | Btn2 | TRNS | TRNS | TRNS |                                       |   0  |   0  |   .  |  Nop |  Nop |
+     *   | TRNS | Btn2 | TRNS | TRNS | TRNS |                                       |   0  |   0  |   .  | Btn1 | Btn2 |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        |  Nop |  Nop |       | Mute |  Nop |
@@ -78,7 +78,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           NO,   NO,   P7,   P8,   P9,   NO,   NO,
                 NO,   P4,   P5,   P6,   NO,   NO,
         TRNS,   NO,   P1,   P2,   P3,   NO,   NO,
-                      P0,   P0,  DOT,   NO,   NO,
+                      P0,   P0,  DOT, BTN1, BTN2,
         MUTE,   NO,
         VOLU,
         VOLD, TRNS, TRNS
@@ -89,9 +89,9 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  L0    |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |           |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Indent |  Nop |  Nop |  Nop |  Nop |  Nop | TRNS |           |Braces|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * | Indent |  Nop |  Nop |  Nop |  Nop | Type | TRNS |           |Braces|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-     * | IndentB|  Nop |  Nop |  Nop |  Nop |  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * | IndentB|  Nop |  Nop |  Nop | File |  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
      * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
@@ -109,8 +109,8 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(
         // left hand
          FN0,  NO,  NO,  NO,  NO,  NO,  NO,
-         FN4,  NO,  NO,  NO,  NO,  NO,TRNS,
-         FN5,  NO,  NO,  NO,  NO,  NO,
+         FN4,  NO,  NO,  NO,  NO, FN9,TRNS,
+         FN5,  NO,  NO,  NO, FN8,  NO,
           NO,  NO,  NO,  NO,  NO,  NO,  NO,
           NO,  NO,  NO,  NO,  NO,
                                    NO,  NO,
@@ -181,7 +181,9 @@ enum macro_id {
     INDENT,
     INDENT_BUFFER,
     HASH_ROCKET,
-    BRACES
+    BRACES,
+    FIND_FILE,
+    FIND_TYPE,
 };
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
@@ -210,6 +212,14 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             return (event.pressed ?
                     MACRO(D(LSFT), T(LBRC), U(LSFT), T(ENT), T(TAB), END) :
                     MACRO_NONE);
+        case FIND_FILE:
+            return (event.pressed ?
+                    MACRO(D(LCTRL), T(X), T(F), U(LCTRL), END) :
+                    MACRO_NONE);
+        case FIND_TYPE:
+            return (event.pressed ?
+                    MACRO(D(LCTRL), T(C), T(T), U(LCTRL), END) :
+                    MACRO_NONE);
     }
 
     return MACRO_NONE;
@@ -228,6 +238,8 @@ static const uint16_t PROGMEM fn_actions[] = {
     ACTION_MACRO(INDENT_BUFFER),                    // FN5 - indent current buffer
     ACTION_MACRO(HASH_ROCKET),                      // FN6 - type hash rocket
     ACTION_MACRO(BRACES),                           // FN7 - curly braces
+    ACTION_MACRO(FIND_FILE),                        // FN8 - find file
+    ACTION_MACRO(FIND_TYPE),                        // FN9 - find type
 };
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
