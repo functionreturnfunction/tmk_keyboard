@@ -87,11 +87,11 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Keymap 2: Macro Keys
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
-     * |  L0    |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
+     * |  L0    | C-x 1| C-x 2| C-x 3|  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
      * | Indent |  Nop |  Nop |  Nop |  Nop | Type | TRNS |           |Braces|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-     * | IndentB|  Nop |  Nop |  Nop | File |  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * | IndentB|  Nop | Save |  Nop | File |  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
      * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
@@ -108,9 +108,9 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     KEYMAP(
         // left hand
-         FN0,  NO,  NO,  NO,  NO,  NO,  NO,
+         FN0,FN11,FN12,FN13,  NO,  NO,  NO,
          FN4,  NO,  NO,  NO,  NO, FN9,TRNS,
-         FN5,  NO,  NO,  NO, FN8,  NO,
+         FN5,  NO,FN14,  NO, FN8,  NO,
           NO,  NO,  NO,  NO,  NO,  NO,  NO,
           NO,  NO,  NO,  NO,  NO,
                                    NO,  NO,
@@ -185,7 +185,16 @@ enum macro_id {
     FIND_FILE,
     FIND_TYPE,
     HOME_PATH,
+    DELETE_OTHER_WINDOWS,
+    SPLIT_WINDOW_BELOW,
+    SPLIT_WINDOW_RIGHT,
+    SAVE_BUFFER,
 };
+
+#define C_(...) D(LCTRL), __VA_ARGS__, U(LCTRL)
+#define M_(...) D(LALT), __VA_ARGS__, U(LALT)
+#define SFT_(...) D(LSFT), __VA_ARGS__, U(LSFT)
+#define C_X_COMMA C_(T(X))
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
@@ -196,38 +205,54 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
         case INDENT:
             // move to the beginning of the line, press tab, move to the next line
             return (event.pressed ?
-                    MACRO(D(LCTRL), T(A), U(LCTRL), T(TAB), D(LCTRL), T(N), U(LCTRL), END) :
+                    MACRO(C_(T(A)), T(TAB), C_(T(N)), END) :
                     MACRO_NONE);
         case INDENT_BUFFER:
             // highlight the current buffer, call indent-region
             return (event.pressed ?
-                    MACRO(D(LCTRL), T(X), U(LCTRL), T(H), D(LCTRL), D(LALT), T(BSLS), U(LALT), U(LCTRL), END) :
+                    MACRO(C_X_COMMA, T(H), C_(M_(T(BSLS))), END) :
                     MACRO_NONE);
             // =>
         case HASH_ROCKET:
             return (event.pressed ?
-                    MACRO(T(EQL), D(LSFT), T(DOT), U(LSFT), END) :
+                    MACRO(T(EQL), SFT_(T(DOT)), END) :
                     MACRO_NONE);
             // open curly brace, enter, tab
         case BRACES:
             return (event.pressed ?
-                    MACRO(D(LSFT), T(LBRC), U(LSFT), T(ENT), T(TAB), END) :
+                    MACRO(SFT_(T(LBRC)), T(ENT), T(TAB), END) :
                     MACRO_NONE);
             // C-x, C-f
         case FIND_FILE:
             return (event.pressed ?
-                    MACRO(D(LCTRL), T(X), T(F), U(LCTRL), END) :
+                    MACRO(C_(T(X), T(F)), END) :
                     MACRO_NONE);
             // C-c, C-t (visual studio)
         case FIND_TYPE:
             return (event.pressed ?
-                    MACRO(D(LCTRL), T(C), T(T), U(LCTRL), END) :
+                    MACRO(C_(T(C), T(T)), END) :
                     MACRO_NONE);
             // ~/
         case HOME_PATH:
             return (event.pressed ?
-                    MACRO(D(LSFT), T(GRV), U(LSFT), T(SLSH), END) :
+                    MACRO(SFT_(T(GRV)), T(SLSH), END) :
                     MACRO_NONE);
+            // C-x, 1
+        case DELETE_OTHER_WINDOWS:
+            return (event.pressed ?
+                    MACRO(C_X_COMMA, T(1), END) : MACRO_NONE);
+            // C-x, 2
+        case SPLIT_WINDOW_BELOW:
+            return (event.pressed ?
+                    MACRO(C_X_COMMA, T(2), END) : MACRO_NONE);
+            // C-x, 3
+        case SPLIT_WINDOW_RIGHT:
+            return (event.pressed ?
+                    MACRO(C_X_COMMA, T(3), END) : MACRO_NONE);
+            // C-x, C-s
+        case SAVE_BUFFER:
+            return (event.pressed ?
+                    MACRO(C_(T(X), T(S)), END) : MACRO_NONE);
     }
 
     return MACRO_NONE;
@@ -249,6 +274,10 @@ static const uint16_t PROGMEM fn_actions[] = {
     ACTION_MACRO(FIND_FILE),                        // FN8  - find file
     ACTION_MACRO(FIND_TYPE),                        // FN9  - find type
     ACTION_MACRO(HOME_PATH),                        // FN10 - type ~/
+    ACTION_MACRO(DELETE_OTHER_WINDOWS),             // FN11 - C-x 1
+    ACTION_MACRO(SPLIT_WINDOW_BELOW),               // FN12 - C-x 2
+    ACTION_MACRO(SPLIT_WINDOW_RIGHT),               // FN13 - C-x 3,
+    ACTION_MACRO(SAVE_BUFFER),                      // FN14 - C-x, C-s
 };
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
