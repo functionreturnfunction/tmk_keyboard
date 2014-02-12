@@ -89,11 +89,11 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  L0    | C-x 1| C-x 2| C-x 3|  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Indent |  Nop |  Nop |  Nop |  Nop | Type | TRNS |           |Braces|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * | Indent |  Nop |  Nop |  Nop |  Nop | Type | TRNS |           |Braces|  M-{ |  Nop |  Nop |  Nop |  Nop |  M-}   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-     * | IndentB|  Nop | Save |  Nop | File |  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * | IndentB|  Nop |C-xC-s|  Nop |C-xC-f|  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
-     * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  M-< |  M-> |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
      *   |  Nop |  Nop |  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |  Nop |
      *   `----------------------------------'                                       `----------------------------------'
@@ -101,7 +101,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                                        |  Nop |  Nop |       |  Nop |  Nop |
      *                                 ,------|------|------|       |------+------+------.
      *                                 |      |      |  Nop |       |  Nop |      |      |
-     *                                 |  Nop |  Nop |------|       |------|  Nop | TRNS |
+     *                                 | TRNS |  Nop |------|       |------|  Nop |  Nop |
      *                                 |      |      |  Nop |       |  Nop |      |      |
      *                                 `--------------------'       `--------------------'
      */
@@ -118,13 +118,13 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             TRNS,  NO,  NO,
         // right hand
         FN10,  NO,  NO,  NO,  NO,  NO, FN6,
-         FN7,  NO,  NO,  NO,  NO,  NO,  NO,
+         FN7,FN15,  NO,  NO,  NO,  NO,FN16,
                NO,  NO,  NO,  NO,  NO,  NO,
-          NO,  NO,  NO,  NO,  NO,  NO,  NO,
+          NO,  NO,  NO,FN17,FN18,  NO,  NO,
                     NO,  NO,  NO,  NO,  NO,
           NO,  NO,
           NO,
-          NO,  NO,TRNS
+          NO,  NO,  NO
     ),
 
     /* Keymap 3: Clean Layer
@@ -189,12 +189,17 @@ enum macro_id {
     SPLIT_WINDOW_BELOW,
     SPLIT_WINDOW_RIGHT,
     SAVE_BUFFER,
+    BACKWARD_PARAGRAPH,
+    FORWARD_PARAGRAPH,
+    BEGINNING_OF_BUFFER,
+    END_OF_BUFFER,
 };
 
 #define C_(...) D(LCTRL), __VA_ARGS__, U(LCTRL)
 #define M_(...) D(LALT), __VA_ARGS__, U(LALT)
 #define SFT_(...) D(LSFT), __VA_ARGS__, U(LSFT)
 #define C_X_COMMA C_(T(X))
+#define SIMPLE_MACRO(...) (event.pressed ? MACRO(__VA_ARGS__, END) : MACRO_NONE)
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
@@ -202,57 +207,51 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
     tap_t tap = record->tap;
 
     switch (id) {
-        case INDENT:
             // move to the beginning of the line, press tab, move to the next line
-            return (event.pressed ?
-                    MACRO(C_(T(A)), T(TAB), C_(T(N)), END) :
-                    MACRO_NONE);
-        case INDENT_BUFFER:
+        case INDENT:
+            return SIMPLE_MACRO(C_(T(A)), T(TAB), C_(T(N)));
             // highlight the current buffer, call indent-region
-            return (event.pressed ?
-                    MACRO(C_X_COMMA, T(H), C_(M_(T(BSLS))), END) :
-                    MACRO_NONE);
+        case INDENT_BUFFER:
+            return SIMPLE_MACRO(C_X_COMMA, T(H), C_(M_(T(BSLS))));
             // =>
         case HASH_ROCKET:
-            return (event.pressed ?
-                    MACRO(T(EQL), SFT_(T(DOT)), END) :
-                    MACRO_NONE);
+            return SIMPLE_MACRO(T(EQL), SFT_(T(DOT)));
             // open curly brace, enter, tab
         case BRACES:
-            return (event.pressed ?
-                    MACRO(SFT_(T(LBRC)), T(ENT), T(TAB), END) :
-                    MACRO_NONE);
+            return SIMPLE_MACRO(SFT_(T(LBRC)), T(ENT), T(TAB));
             // C-x, C-f
         case FIND_FILE:
-            return (event.pressed ?
-                    MACRO(C_(T(X), T(F)), END) :
-                    MACRO_NONE);
+            return SIMPLE_MACRO(C_(T(X), T(F)));
             // C-c, C-t (visual studio)
         case FIND_TYPE:
-            return (event.pressed ?
-                    MACRO(C_(T(C), T(T)), END) :
-                    MACRO_NONE);
+            return SIMPLE_MACRO(C_(T(C), T(T)));
             // ~/
         case HOME_PATH:
-            return (event.pressed ?
-                    MACRO(SFT_(T(GRV)), T(SLSH), END) :
-                    MACRO_NONE);
+            return SIMPLE_MACRO(SFT_(T(GRV)), T(SLSH));
             // C-x, 1
         case DELETE_OTHER_WINDOWS:
-            return (event.pressed ?
-                    MACRO(C_X_COMMA, T(1), END) : MACRO_NONE);
+            return SIMPLE_MACRO(C_X_COMMA, T(1));
             // C-x, 2
         case SPLIT_WINDOW_BELOW:
-            return (event.pressed ?
-                    MACRO(C_X_COMMA, T(2), END) : MACRO_NONE);
+            return SIMPLE_MACRO(C_X_COMMA, T(2));
             // C-x, 3
         case SPLIT_WINDOW_RIGHT:
-            return (event.pressed ?
-                    MACRO(C_X_COMMA, T(3), END) : MACRO_NONE);
+            return SIMPLE_MACRO(C_X_COMMA, T(3));
             // C-x, C-s
         case SAVE_BUFFER:
-            return (event.pressed ?
-                    MACRO(C_(T(X), T(S)), END) : MACRO_NONE);
+            return SIMPLE_MACRO(C_(T(X), T(S)));
+            // M-{
+        case BACKWARD_PARAGRAPH:
+            return SIMPLE_MACRO(M_(SFT_(T(LBRC))));
+            // M-}
+        case FORWARD_PARAGRAPH:
+            return SIMPLE_MACRO(M_(SFT_(T(RBRC))));
+            // M-<
+        case BEGINNING_OF_BUFFER:
+            return SIMPLE_MACRO(M_(SFT_(T(COMM))));
+            // M->
+        case END_OF_BUFFER:
+            return SIMPLE_MACRO(M_(SFT_(T(DOT))));
     }
 
     return MACRO_NONE;
@@ -269,16 +268,20 @@ static const uint16_t PROGMEM fn_actions[] = {
 
     ACTION_MACRO(INDENT),                           // FN4  - indent current line
     ACTION_MACRO(INDENT_BUFFER),                    // FN5  - indent current buffer
-    ACTION_MACRO(HASH_ROCKET),                      // FN6  - type hash rocket
+    ACTION_MACRO(HASH_ROCKET),                      // FN6  - type =>
     ACTION_MACRO(BRACES),                           // FN7  - curly braces
     ACTION_MACRO(FIND_FILE),                        // FN8  - find file
     ACTION_MACRO(FIND_TYPE),                        // FN9  - find type
     ACTION_MACRO(HOME_PATH),                        // FN10 - type ~/
     ACTION_MACRO(DELETE_OTHER_WINDOWS),             // FN11 - C-x 1
     ACTION_MACRO(SPLIT_WINDOW_BELOW),               // FN12 - C-x 2
-    ACTION_MACRO(SPLIT_WINDOW_RIGHT),               // FN13 - C-x 3,
+    ACTION_MACRO(SPLIT_WINDOW_RIGHT),               // FN13 - C-x 3
     ACTION_MACRO(SAVE_BUFFER),                      // FN14 - C-x, C-s
-};
+    ACTION_MACRO(BACKWARD_PARAGRAPH),               // FN15 - M-{
+    ACTION_MACRO(FORWARD_PARAGRAPH),                // FN16 - M-}
+    ACTION_MACRO(BEGINNING_OF_BUFFER),              // FN17 - M-<
+    ACTION_MACRO(END_OF_BUFFER),                    // FN18 - M->
+}; // NOTE TO J: YOU ONLY HAVE 32 OF THESE TO PLAY WITH, BUT THERE MAY BE WAYS TO WORK AROUND THAT
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
 {
