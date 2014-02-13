@@ -95,7 +95,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
      * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  M-< |  M-> |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   |  Nop |  Nop |  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |  Nop |
+     *   |  Nop |  Nop |  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |TEENSY|
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        |  Nop |  Nop |       |  Nop |  Nop |
@@ -121,7 +121,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          FN7,FN15,  NO,  NO,  NO,  NO,FN16,
                NO,  NO,  NO,  NO,  NO,  NO,
           NO,  NO,  NO,FN17,FN18,  NO,  NO,
-                    NO,  NO,  NO,  NO,  NO,
+                    NO,  NO,  NO,  NO,FN19,
           NO,  NO,
           NO,
           NO,  NO,  NO
@@ -200,6 +200,7 @@ enum macro_id {
 #define SFT_(...) D(LSFT), __VA_ARGS__, U(LSFT)
 #define C_X_COMMA C_(T(X))
 #define SIMPLE_MACRO(...) (event.pressed ? MACRO(__VA_ARGS__, END) : MACRO_NONE)
+#define NAVIGATE_MACRO(key) (event.pressed ? MACRO(D(LALT), D(LSFT), D(key), END) : MACRO(U(key), U(LALT), U(LSFT), END))
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
@@ -242,16 +243,27 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             return SIMPLE_MACRO(C_(T(X), T(S)));
             // M-{
         case BACKWARD_PARAGRAPH:
-            return SIMPLE_MACRO(M_(SFT_(T(LBRC))));
+            return NAVIGATE_MACRO(LBRC);
             // M-}
         case FORWARD_PARAGRAPH:
-            return SIMPLE_MACRO(M_(SFT_(T(RBRC))));
+            return NAVIGATE_MACRO(RBRC);
             // M-<
         case BEGINNING_OF_BUFFER:
-            return SIMPLE_MACRO(M_(SFT_(T(COMM))));
+            return NAVIGATE_MACRO(COMM);
             // M->
         case END_OF_BUFFER:
-            return SIMPLE_MACRO(M_(SFT_(T(DOT))));
+            return NAVIGATE_MACRO(DOT);
+        /* case BACKWARD_PARAGRAPH: */
+        /*     return SIMPLE_MACRO(M_(SFT_(T(LBRC)))); */
+        /*     // M-} */
+        /* case FORWARD_PARAGRAPH: */
+        /*     return SIMPLE_MACRO(M_(SFT_(T(RBRC)))); */
+        /*     // M-< */
+        /* case BEGINNING_OF_BUFFER: */
+        /*     return SIMPLE_MACRO(M_(SFT_(T(COMM)))); */
+        /*     // M-> */
+        /* case END_OF_BUFFER: */
+        /*     return SIMPLE_MACRO(M_(SFT_(T(DOT)))); */
     }
 
     return MACRO_NONE;
@@ -281,6 +293,7 @@ static const uint16_t PROGMEM fn_actions[] = {
     ACTION_MACRO(FORWARD_PARAGRAPH),                // FN16 - M-}
     ACTION_MACRO(BEGINNING_OF_BUFFER),              // FN17 - M-<
     ACTION_MACRO(END_OF_BUFFER),                    // FN18 - M->
+    ACTION_FUNCTION(TEENSY_KEY),                    // FN19 - teensy key
 }; // NOTE TO J: YOU ONLY HAVE 32 OF THESE TO PLAY WITH, BUT THERE MAY BE WAYS TO WORK AROUND THAT
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
