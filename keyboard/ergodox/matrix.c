@@ -164,13 +164,21 @@ uint8_t matrix_scan(void)
 #ifdef KEYMAP_J
     uint8_t layer = biton32(layer_state);
 
-    ergodox_board_led_off();
-    ergodox_left_led_1_off();
-    ergodox_left_led_2_off();
-    ergodox_left_led_3_off();
+    ergodox_led_all_off();
 
-    if (layer > 0) {
-      ergodox_board_led_on();
+    switch (layer) {
+        case 1:
+            // yellow
+            ergodox_right_led_2_on();
+            break;
+        case 2:
+            // green
+            ergodox_right_led_3_on();
+            break;
+        case 3:
+            // red
+            ergodox_right_led_1_on();
+            break;
     }
 #endif
 

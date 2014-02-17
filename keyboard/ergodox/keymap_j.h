@@ -50,7 +50,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * |  Nop   |MousLf|MousDn|MousRt|  Nop |  Nop |------|           |------|  Nop |   4  |   5  |   6  |  Nop |  Nop   |
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
-     * |  TRNS  |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |   1  |   2  |   3  |  Nop |  Nop   |
+     * |  TRNS  |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |   1  |   2  |   3  | TRNS |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
      *   | TRNS | Btn2 | TRNS | TRNS | TRNS |                                       |   0  |   0  |   .  | Btn1 | Btn2 |
      *   `----------------------------------'                                       `----------------------------------'
@@ -77,7 +77,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           F7,   F8,   F9,  F10,  F11,  F12,   NO,
           NO,   NO,   P7,   P8,   P9,   NO,   NO,
                 NO,   P4,   P5,   P6,   NO,   NO,
-        TRNS,   NO,   P1,   P2,   P3,   NO,   NO,
+        TRNS,   NO,   P1,   P2,   P3, TRNS,   NO,
                       P0,   P0,  DOT, BTN1, BTN2,
         MUTE,   NO,
         VOLU,
@@ -121,7 +121,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          FN7,FN15,  NO,  NO,  NO,  NO,FN16,
                NO,  NO,  NO,  NO,  NO,  NO,
           NO,  NO,  NO,FN17,FN18,  NO,  NO,
-                    NO,  NO,  NO,  NO,FN19,
+                    NO,  NO,  NO,  NO,FN31,
           NO,  NO,
           NO,
           NO,  NO,  NO
@@ -273,27 +273,28 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
  * Fn action definition
  */
 static const uint16_t PROGMEM fn_actions[] = {
-    ACTION_LAYER_SET(0, ON_RELEASE),                // FN0  - switch to layer0
-    ACTION_LAYER_TAP_TOGGLE(1),                     // FN1  - tap/toggle Layer1
-    ACTION_LAYER_TAP_KEY(2, KC_SPC),                // FN2  - space when tapped, layer2 when held
-    ACTION_LAYER_TOGGLE(3),                         // FN3  - toggle layer 3
+    [ 0] =     ACTION_LAYER_SET(0, ON_RELEASE),                // FN0  - switch to layer0
+    [ 1] =     ACTION_LAYER_TAP_TOGGLE(1),                     // FN1  - tap/toggle Layer1
+    [ 2] =     ACTION_LAYER_TAP_KEY(2, KC_SPC),                // FN2  - space when tapped, layer2 when held
+    [ 3] =     ACTION_LAYER_TOGGLE(3),                         // FN3  - toggle layer 3
 
-    ACTION_MACRO(INDENT),                           // FN4  - indent current line
-    ACTION_MACRO(INDENT_BUFFER),                    // FN5  - indent current buffer
-    ACTION_MACRO(HASH_ROCKET),                      // FN6  - type =>
-    ACTION_MACRO(BRACES),                           // FN7  - curly braces
-    ACTION_MACRO(FIND_FILE),                        // FN8  - find file
-    ACTION_MACRO(FIND_TYPE),                        // FN9  - find type
-    ACTION_MACRO(HOME_PATH),                        // FN10 - type ~/
-    ACTION_MACRO(DELETE_OTHER_WINDOWS),             // FN11 - C-x 1
-    ACTION_MACRO(SPLIT_WINDOW_BELOW),               // FN12 - C-x 2
-    ACTION_MACRO(SPLIT_WINDOW_RIGHT),               // FN13 - C-x 3
-    ACTION_MACRO(SAVE_BUFFER),                      // FN14 - C-x, C-s
-    ACTION_MACRO(BACKWARD_PARAGRAPH),               // FN15 - M-{
-    ACTION_MACRO(FORWARD_PARAGRAPH),                // FN16 - M-}
-    ACTION_MACRO(BEGINNING_OF_BUFFER),              // FN17 - M-<
-    ACTION_MACRO(END_OF_BUFFER),                    // FN18 - M->
-    ACTION_FUNCTION(TEENSY_KEY),                    // FN19 - teensy key
+    [ 4] =     ACTION_MACRO(INDENT),                           // FN4  - indent current line
+    [ 5] =     ACTION_MACRO(INDENT_BUFFER),                    // FN5  - indent current buffer
+    [ 6] =     ACTION_MACRO(HASH_ROCKET),                      // FN6  - type =>
+    [ 7] =     ACTION_MACRO(BRACES),                           // FN7  - type {\n\t}
+    [ 8] =     ACTION_MACRO(FIND_FILE),                        // FN8  - C-x, C-f
+    [ 9] =     ACTION_MACRO(FIND_TYPE),                        // FN9  - C-c, C-t
+    [10] =     ACTION_MACRO(HOME_PATH),                        // FN10 - type ~/
+    [11] =     ACTION_MACRO(DELETE_OTHER_WINDOWS),             // FN11 - C-x 1
+    [12] =     ACTION_MACRO(SPLIT_WINDOW_BELOW),               // FN12 - C-x 2
+    [13] =     ACTION_MACRO(SPLIT_WINDOW_RIGHT),               // FN13 - C-x 3
+    [14] =     ACTION_MACRO(SAVE_BUFFER),                      // FN14 - C-x, C-s
+    [15] =     ACTION_MACRO(BACKWARD_PARAGRAPH),               // FN15 - M-{
+    [16] =     ACTION_MACRO(FORWARD_PARAGRAPH),                // FN16 - M-}
+    [17] =     ACTION_MACRO(BEGINNING_OF_BUFFER),              // FN17 - M-<
+    [18] =     ACTION_MACRO(END_OF_BUFFER),                    // FN18 - M->
+
+    [31] =     ACTION_FUNCTION(TEENSY_KEY),                    // FN31 - teensy key
 }; // NOTE TO J: YOU ONLY HAVE 32 OF THESE TO PLAY WITH, BUT THERE MAY BE WAYS TO WORK AROUND THAT
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
