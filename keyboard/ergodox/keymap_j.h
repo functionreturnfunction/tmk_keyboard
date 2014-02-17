@@ -89,7 +89,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  L0    | C-x 1| C-x 2| C-x 3|  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Indent |  Nop |  Nop |  Nop |  Nop | Type | TRNS |           |Braces|  M-{ |  Nop |  Nop |  Nop |  Nop |  M-}   |
+     * | Indent |  Nop |  Nop |  Nop |  Nop |  Nop | TRNS |           |Braces|  M-{ |  Nop |  Nop |  Nop |  Nop |  M-}   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * | IndentB|  Nop |C-xC-s|  Nop |C-xC-f|  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
@@ -108,19 +108,19 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     KEYMAP(
         // left hand
-         FN0,FN11,FN12,FN13,  NO,  NO,  NO,
-         FN4,  NO,  NO,  NO,  NO, FN9,TRNS,
-         FN5,  NO,FN14,  NO, FN8,  NO,
+         FN0,FN10,FN11,FN12,  NO,  NO,  NO,
+         FN4,  NO,  NO,  NO,  NO,  NO,TRNS,
+         FN5,  NO,FN13,  NO, FN8,  NO,
           NO,  NO,  NO,  NO,  NO,  NO,  NO,
           NO,  NO,  NO,  NO,  NO,
                                    NO,  NO,
                                         NO,
                             TRNS,  NO,  NO,
         // right hand
-        FN10,  NO,  NO,  NO,  NO,  NO, FN6,
-         FN7,FN15,  NO,  NO,  NO,  NO,FN16,
+        FN9,  NO,  NO,  NO,  NO,  NO, FN6,
+         FN7,FN14,  NO,  NO,  NO,  NO,FN15,
                NO,  NO,  NO,  NO,  NO,  NO,
-          NO,  NO,  NO,FN17,FN18,  NO,  NO,
+          NO,  NO,  NO,FN16,FN17,  NO,  NO,
                     NO,  NO,  NO,  NO,FN31,
           NO,  NO,
           NO,
@@ -183,7 +183,6 @@ enum macro_id {
     HASH_ROCKET,
     BRACES,
     FIND_FILE,
-    FIND_TYPE,
     HOME_PATH,
     DELETE_OTHER_WINDOWS,
     SPLIT_WINDOW_BELOW,
@@ -223,9 +222,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             // C-x, C-f
         case FIND_FILE:
             return SIMPLE_MACRO(C_(T(X), T(F)));
-            // C-c, C-t (visual studio)
-        case FIND_TYPE:
-            return SIMPLE_MACRO(C_(T(C), T(T)));
             // ~/
         case HOME_PATH:
             return SIMPLE_MACRO(SFT_(T(GRV)), T(SLSH));
@@ -253,17 +249,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             // M->
         case END_OF_BUFFER:
             return NAVIGATE_MACRO(DOT);
-        /* case BACKWARD_PARAGRAPH: */
-        /*     return SIMPLE_MACRO(M_(SFT_(T(LBRC)))); */
-        /*     // M-} */
-        /* case FORWARD_PARAGRAPH: */
-        /*     return SIMPLE_MACRO(M_(SFT_(T(RBRC)))); */
-        /*     // M-< */
-        /* case BEGINNING_OF_BUFFER: */
-        /*     return SIMPLE_MACRO(M_(SFT_(T(COMM)))); */
-        /*     // M-> */
-        /* case END_OF_BUFFER: */
-        /*     return SIMPLE_MACRO(M_(SFT_(T(DOT)))); */
     }
 
     return MACRO_NONE;
@@ -283,16 +268,15 @@ static const uint16_t PROGMEM fn_actions[] = {
     [ 6] =     ACTION_MACRO(HASH_ROCKET),                      // FN6  - type =>
     [ 7] =     ACTION_MACRO(BRACES),                           // FN7  - type {\n\t}
     [ 8] =     ACTION_MACRO(FIND_FILE),                        // FN8  - C-x, C-f
-    [ 9] =     ACTION_MACRO(FIND_TYPE),                        // FN9  - C-c, C-t
-    [10] =     ACTION_MACRO(HOME_PATH),                        // FN10 - type ~/
-    [11] =     ACTION_MACRO(DELETE_OTHER_WINDOWS),             // FN11 - C-x 1
-    [12] =     ACTION_MACRO(SPLIT_WINDOW_BELOW),               // FN12 - C-x 2
-    [13] =     ACTION_MACRO(SPLIT_WINDOW_RIGHT),               // FN13 - C-x 3
-    [14] =     ACTION_MACRO(SAVE_BUFFER),                      // FN14 - C-x, C-s
-    [15] =     ACTION_MACRO(BACKWARD_PARAGRAPH),               // FN15 - M-{
-    [16] =     ACTION_MACRO(FORWARD_PARAGRAPH),                // FN16 - M-}
-    [17] =     ACTION_MACRO(BEGINNING_OF_BUFFER),              // FN17 - M-<
-    [18] =     ACTION_MACRO(END_OF_BUFFER),                    // FN18 - M->
+    [ 9] =     ACTION_MACRO(HOME_PATH),                        // FN9  - type ~/
+    [10] =     ACTION_MACRO(DELETE_OTHER_WINDOWS),             // FN10 - C-x 1
+    [11] =     ACTION_MACRO(SPLIT_WINDOW_BELOW),               // FN11 - C-x 2
+    [12] =     ACTION_MACRO(SPLIT_WINDOW_RIGHT),               // FN12 - C-x 3
+    [13] =     ACTION_MACRO(SAVE_BUFFER),                      // FN13 - C-x, C-s
+    [14] =     ACTION_MACRO(BACKWARD_PARAGRAPH),               // FN14 - M-{
+    [15] =     ACTION_MACRO(FORWARD_PARAGRAPH),                // FN15 - M-}
+    [16] =     ACTION_MACRO(BEGINNING_OF_BUFFER),              // FN16 - M-<
+    [17] =     ACTION_MACRO(END_OF_BUFFER),                    // FN17 - M->
 
     [31] =     ACTION_FUNCTION(TEENSY_KEY),                    // FN31 - teensy key
 }; // NOTE TO J: YOU ONLY HAVE 32 OF THESE TO PLAY WITH, BUT THERE MAY BE WAYS TO WORK AROUND THAT
