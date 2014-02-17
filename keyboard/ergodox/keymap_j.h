@@ -89,7 +89,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  L0    | C-x 1| C-x 2| C-x 3|  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Indent |  Nop |  Nop |  Nop |  Nop |  Nop | TRNS |           |Braces|  M-{ |  Nop |  Nop |  Nop |  Nop |  M-}   |
+     * | Indent |  Nop |  Nop |  Nop |  Nop |  Nop |  L3  |           |Braces|  M-{ |  Nop |  Nop |  Nop |  Nop |  M-}   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * | IndentB|  Nop |C-xC-s|  Nop |C-xC-f|  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
@@ -106,11 +106,11 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                                 `--------------------'       `--------------------'
      */
 
-    KEYMAP(
+    KEYMAP( 
         // left hand
          FN0,FN12,FN13,FN14,  NO,  NO,  NO,
-         FN6,  NO,  NO,  NO,  NO,  NO,TRNS,
-         FN7,  NO,FN15,  NO, FN10,  NO,
+         FN6,  NO,  NO,  NO,  NO,  NO, FN3,
+         FN7,  NO,FN15,  NO,FN10,  NO,
           NO,  NO,  NO,  NO,  NO,  NO,  NO,
           NO,  NO,  NO,  NO,  NO,
                                    NO,  NO,
