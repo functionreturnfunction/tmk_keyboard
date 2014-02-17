@@ -4,7 +4,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |           |   `  |   7  |   8  |   9  |   0  |   -  |   =    |
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Tab    |   Q  |   W  |   E  |   R  |   T  |  L3  |           | [    |   Y  |   U  |   I  |   O  |   P  |   ]    |
+     * | Tab    |   Q  |   W  |   E  |   R  |   T  | Nop  |           | [    |   Y  |   U  |   I  |   O  |   P  |   ]    |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * | \      |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  | '      |
      * |--------+------+------+------+------+------| ~L1  |           | ~L1  |------+------+------+------+------+--------|
@@ -23,7 +23,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(
         // left hand
          ESC,    1,    2,    3,    4,    5,    6,
-         TAB,    Q,    W,    E,    R,    T,  FN3,
+         TAB,    Q,    W,    E,    R,    T,   NO,
         BSLS,    A,    S,    D,    F,    G,
         LSFT,    Z,    X,    C,    V,    B,  FN1,
         LCTL,   NO, LGUI, LALT, LALT,
@@ -46,7 +46,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  L0    |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |  Nop   |
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * |  TRNS  |  Nop |MousUp|  Nop |  Nop |  Nop |  Nop |           |  Nop |  Nop |   7  |   8  |   9  |  Nop |  Nop   |
+     * |  TRNS  |  Nop |MousUp|  Nop |  Nop |  Nop |  L3  |           |  Nop |  Nop |   7  |   8  |   9  |  Nop |  Nop   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * |  Nop   |MousLf|MousDn|MousRt|  Nop |  Nop |------|           |------|  Nop |   4  |   5  |   6  |  Nop |  Nop   |
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
@@ -66,7 +66,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(
         // left hand
          FN0,   F1,   F2,   F3,   F4,   F5,   F6,
-        TRNS,   NO, MS_U,   NO,   NO,   NO, TRNS,
+        TRNS,   NO, MS_U,   NO,   NO,   NO,  FN3,
           NO, MS_L, MS_D, MS_R,   NO,   NO,
         TRNS,   NO,   NO,   NO,   NO,   NO, TRNS,
         TRNS, BTN2, TRNS, TRNS, TRNS,
@@ -108,19 +108,19 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     KEYMAP(
         // left hand
-         FN0,FN10,FN11,FN12,  NO,  NO,  NO,
-         FN4,  NO,  NO,  NO,  NO,  NO,TRNS,
-         FN5,  NO,FN13,  NO, FN8,  NO,
+         FN0,FN12,FN13,FN14,  NO,  NO,  NO,
+         FN6,  NO,  NO,  NO,  NO,  NO,TRNS,
+         FN7,  NO,FN15,  NO, FN10,  NO,
           NO,  NO,  NO,  NO,  NO,  NO,  NO,
           NO,  NO,  NO,  NO,  NO,
                                    NO,  NO,
                                         NO,
                             TRNS,  NO,  NO,
         // right hand
-        FN9,  NO,  NO,  NO,  NO,  NO, FN6,
-         FN7,FN14,  NO,  NO,  NO,  NO,FN15,
+        FN11,  NO,  NO,  NO,  NO,  NO, FN8,
+         FN9,FN16,  NO,  NO,  NO,  NO,FN17,
                NO,  NO,  NO,  NO,  NO,  NO,
-          NO,  NO,  NO,FN16,FN17,  NO,  NO,
+          NO,  NO,  NO,FN18,FN19,  NO,  NO,
                     NO,  NO,  NO,  NO,FN31,
           NO,  NO,
           NO,
@@ -263,20 +263,20 @@ static const uint16_t PROGMEM fn_actions[] = {
     [ 2] =     ACTION_LAYER_TAP_KEY(2, KC_SPC),                // FN2  - space when tapped, layer2 when held
     [ 3] =     ACTION_LAYER_TOGGLE(3),                         // FN3  - toggle layer 3
 
-    [ 4] =     ACTION_MACRO(INDENT),                           // FN4  - indent current line
-    [ 5] =     ACTION_MACRO(INDENT_BUFFER),                    // FN5  - indent current buffer
-    [ 6] =     ACTION_MACRO(HASH_ROCKET),                      // FN6  - type =>
-    [ 7] =     ACTION_MACRO(BRACES),                           // FN7  - type {\n\t}
-    [ 8] =     ACTION_MACRO(FIND_FILE),                        // FN8  - C-x, C-f
-    [ 9] =     ACTION_MACRO(HOME_PATH),                        // FN9  - type ~/
-    [10] =     ACTION_MACRO(DELETE_OTHER_WINDOWS),             // FN10 - C-x 1
-    [11] =     ACTION_MACRO(SPLIT_WINDOW_BELOW),               // FN11 - C-x 2
-    [12] =     ACTION_MACRO(SPLIT_WINDOW_RIGHT),               // FN12 - C-x 3
-    [13] =     ACTION_MACRO(SAVE_BUFFER),                      // FN13 - C-x, C-s
-    [14] =     ACTION_MACRO(BACKWARD_PARAGRAPH),               // FN14 - M-{
-    [15] =     ACTION_MACRO(FORWARD_PARAGRAPH),                // FN15 - M-}
-    [16] =     ACTION_MACRO(BEGINNING_OF_BUFFER),              // FN16 - M-<
-    [17] =     ACTION_MACRO(END_OF_BUFFER),                    // FN17 - M->
+    [ 6] =     ACTION_MACRO(INDENT),                           // FN6  - indent current line
+    [ 7] =     ACTION_MACRO(INDENT_BUFFER),                    // FN7  - indent current buffer
+    [ 8] =     ACTION_MACRO(HASH_ROCKET),                      // FN8  - type =>
+    [ 9] =     ACTION_MACRO(BRACES),                           // FN9  - type {\n\t}
+    [10] =     ACTION_MACRO(FIND_FILE),                        // FN10 - C-x, C-f
+    [11] =     ACTION_MACRO(HOME_PATH),                        // FN11 - type ~/
+    [12] =     ACTION_MACRO(DELETE_OTHER_WINDOWS),             // FN12 - C-x 1
+    [13] =     ACTION_MACRO(SPLIT_WINDOW_BELOW),               // FN13 - C-x 2
+    [14] =     ACTION_MACRO(SPLIT_WINDOW_RIGHT),               // FN14 - C-x 3
+    [15] =     ACTION_MACRO(SAVE_BUFFER),                      // FN15 - C-x, C-s
+    [16] =     ACTION_MACRO(BACKWARD_PARAGRAPH),               // FN16 - M-{
+    [17] =     ACTION_MACRO(FORWARD_PARAGRAPH),                // FN17 - M-}
+    [18] =     ACTION_MACRO(BEGINNING_OF_BUFFER),              // FN18 - M-<
+    [19] =     ACTION_MACRO(END_OF_BUFFER),                    // FN19 - M->
 
     [31] =     ACTION_FUNCTION(TEENSY_KEY),                    // FN31 - teensy key
 }; // NOTE TO J: YOU ONLY HAVE 32 OF THESE TO PLAY WITH, BUT THERE MAY BE WAYS TO WORK AROUND THAT
