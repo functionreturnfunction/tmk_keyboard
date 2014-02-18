@@ -101,7 +101,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                                        |  Nop |  Nop |       |  Nop |  Nop |
      *                                 ,------|------|------|       |------+------+------.
      *                                 |      |      |  Nop |       |  Nop |      |      |
-     *                                 | TRNS |  Nop |------|       |------|  Nop |  Nop |
+     *                                 | TRNS |  Nop |------|       |------|  Nop | LEDs |
      *                                 |      |      |  Nop |       |  Nop |      |      |
      *                                 `--------------------'       `--------------------'
      */
@@ -124,7 +124,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     NO,  NO,  NO,  NO,FN31,
           NO,  NO,
           NO,
-          NO,  NO,  NO
+          NO,  NO,FN30
     ),
 
     /* Keymap 3: Clean Layer
@@ -174,6 +174,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* id for user defined functions */
 enum function_id {
     TEENSY_KEY,
+    BLINKENLIGHTS,
 };
 
 /* id for user-defined macros */
@@ -294,6 +295,7 @@ static const uint16_t PROGMEM fn_actions[] = {
     [17] =     ACTION_MACRO(BEGINNING_OF_BUFFER),              // FN17 - M-<
     [18] =     ACTION_MACRO(END_OF_BUFFER),                    // FN18 - M->
 
+    [30] =     ACTION_FUNCTION(BLINKENLIGHTS),                 // FN30 - das blinkenlights
     [31] =     ACTION_FUNCTION(TEENSY_KEY),                    // FN31 - teensy key
 }; // NOTE TO J: YOU ONLY HAVE 32 OF THESE TO PLAY WITH, BUT THERE MAY BE WAYS TO WORK AROUND THAT
 
@@ -302,12 +304,20 @@ void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
     print("action_function called\n");
     print("id  = "); phex(id); print("\n");
     print("opt = "); phex(opt); print("\n");
+
+    switch (id) {
+        case TEENSY_KEY:
+            clear_keyboard();
+            print("\n\nJump to bootloader... ");
+            _delay_ms(250);
+            bootloader_jump(); // should not return
+            print("not supported.\n");
+            break;
+        case BLINKENLIGHTS:
+            ergodox_blink_all_leds();
+            break;
+    }
     if (id == TEENSY_KEY) {
-        clear_keyboard();
-        print("\n\nJump to bootloader... ");
-        _delay_ms(250);
-        bootloader_jump(); // should not return
-        print("not supported.\n");
     }
 }
 
