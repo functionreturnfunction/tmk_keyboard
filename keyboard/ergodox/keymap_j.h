@@ -91,7 +91,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  L0    | C-x 1| C-x 2| C-x 3|  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Indent |  Nop |  Nop |  Nop |  Nop | TWSS |  L3  |           |Braces|  M-{ |  Nop |  Nop |  Nop |  Nop |  M-}   |
+     * | Indent |  Nop |  Nop |  Nop |  Nop | TWSS |  L3  |           | M-{  |      |  Nop |  Nop |  Nop |  Nop |  M-}   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * | IndentB|  Nop |C-xC-s|  Nop |C-xC-f|  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
@@ -108,7 +108,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                                 `--------------------'       `--------------------'
      */
 
-    KEYMAP( 
+    KEYMAP(
         // left hand
          FN0,FN12,FN13,FN14,  NO,  NO,  NO,
          FN6,  NO,  NO,  NO,  NO,FN20, FN3,
@@ -120,7 +120,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             TRNS,  NO,  NO,
         // right hand
         FN11,  NO,  NO,  NO,  NO,  NO, FN8,
-         FN9,FN16,  NO,  NO,  NO,  NO,FN17,
+        FN16,  NO,  NO,  NO,  NO,  NO,FN17,
                NO,  NO,  NO,  NO,  NO,  NO,
           NO,  NO,  NO,FN18,FN19,  NO,  NO,
                     NO,  NO,  NO,  NO,FN31,
@@ -273,7 +273,6 @@ static const uint16_t PROGMEM fn_actions[] = {
     [ 6] =     ACTION_MACRO(INDENT),                           // FN6  - indent current line
     [ 7] =     ACTION_MACRO(INDENT_BUFFER),                    // FN7  - indent current buffer
     [ 8] =     ACTION_MACRO(HASH_ROCKET),                      // FN8  - type =>
-    [ 9] =     ACTION_MACRO(BRACES),                           // FN9  - type {\n\t}
     [10] =     ACTION_MACRO(FIND_FILE),                        // FN10 - C-x, C-f
     [11] =     ACTION_MACRO(HOME_PATH),                        // FN11 - type ~/
     [12] =     ACTION_MACRO(DELETE_OTHER_WINDOWS),             // FN12 - C-x 1
