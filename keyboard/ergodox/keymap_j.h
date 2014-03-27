@@ -324,6 +324,10 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
     print("id  = "); phex(id); print("\n");
     print("opt = "); phex(opt); print("\n");
 
+    if (!event.pressed) {
+        return;
+    }
+
     switch (id) {
         case TEENSY_KEY:
             clear_keyboard();
