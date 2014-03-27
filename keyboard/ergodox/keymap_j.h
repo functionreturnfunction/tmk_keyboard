@@ -290,10 +290,9 @@ static const uint16_t PROGMEM fn_actions[] = {
     [31] =     ACTION_FUNCTION(TEENSY_KEY),                    // FN31 - teensy key
 }; // NOTE TO J: YOU ONLY HAVE 32 OF THESE TO PLAY WITH, BUT THERE MAY BE WAYS TO WORK AROUND THAT
 
-void state_layer(keyrecord_t *record)
+void state_layer(keyevent_t event)
 {
     uint8_t layer = biton32(layer_state);
-    keyevent_t event = record->event;
     const macro_t *macro;
 
     switch (layer) {
@@ -309,13 +308,18 @@ void state_layer(keyrecord_t *record)
         case 3:
             macro = SIMPLE_MACRO(T(C), T(L), T(E), T(A), T(N));
             break;
+        default:
+            macro = SIMPLE_MACRO(T(V), SFT_(T(O)), T(V));
+            break;
     }
 
     action_macro_play(macro);
 }
 
-void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
+void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
+    keyevent_t event = record->event;
+
     print("action_function called\n");
     print("id  = "); phex(id); print("\n");
     print("opt = "); phex(opt); print("\n");
@@ -334,8 +338,6 @@ void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
         case STATE_LAYER:
             state_layer(event);
             break;
-    }
-    if (id == TEENSY_KEY) {
     }
 }
 
