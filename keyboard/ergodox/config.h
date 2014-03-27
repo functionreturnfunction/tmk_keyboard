@@ -29,7 +29,7 @@ Project located at <https://github.com/benblazak/ergodox-firmware>
 #define VENDOR_ID       0xFEED
 #define PRODUCT_ID      0x1111
 #define DEVICE_VER      0x0001
-#define MANUFACTURER    TMK/Cub
+#define MANUFACTURER    TMK/FRF
 #define PRODUCT         Ergodox
 #define DESCRIPTION     t.m.k. keyboard firmware for Ergodox
 
@@ -40,7 +40,18 @@ Project located at <https://github.com/benblazak/ergodox-firmware>
 //#define MATRIX_HAS_GHOST
 
 /* Set 0 if debouncing isn't needed */
-#define DEBOUNCE    5
+/*
+ * This constant define not debouncing time in msecs, but amount of matrix
+ * scan loops which should be made to get stable debounced results.
+ *
+ * On Ergodox matrix scan rate is relatively low, because of slow I2C.
+ * Now it's only 317 scans/second, or about 3.15 msec/scan.
+ * According to Cherry specs, debouncing time is 5 msec.
+ *
+ * And so, there is no sense to have DEBOUNCE higher than 2.
+ */
+#define DEBOUNCE        2
+#define TAPPING_TERM    250
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
@@ -71,5 +82,6 @@ Project located at <https://github.com/benblazak/ergodox-firmware>
 //#define NO_ACTION_ONESHOT
 //#define NO_ACTION_MACRO
 //#define NO_ACTION_FUNCTION
+//#define DEBUG_MATRIX_FREQ
 
 #endif

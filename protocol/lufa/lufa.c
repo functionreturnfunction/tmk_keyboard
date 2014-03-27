@@ -148,7 +148,6 @@ static void Console_Task(void)
 */
 void EVENT_USB_Device_Connect(void)
 {
-    led_set(0x1f);  // all on
 }
 
 void EVENT_USB_Device_Disconnect(void)
@@ -172,8 +171,9 @@ void EVENT_USB_Device_WakeUp()
 
 #ifdef SLEEP_LED_ENABLE
     sleep_led_disable();
-#endif
+    // NOTE: converters may not accept this
     led_set(host_keyboard_leds());
+#endif
 }
 
 void EVENT_USB_Device_StartOfFrame(void)
@@ -531,19 +531,33 @@ static void SetupHardware(void)
 
     // for Console_Task
     USB_Device_EnableSOFEvents();
+    print_set_sendchar(sendchar);
 }
 
 int main(void)  __attribute__ ((weak));
 int main(void)
 {
     SetupHardware();
+    sei();
+
+    /* wait for USB startup & debug output */
+    while (USB_DeviceState != DEVICE_STATE_Configured) {
+#if defined(INTERRUPT_CONTROL_ENDPOINT)
+        ;
+#else
+        USB_USBTask();
+#endif
+    }
+    print("USB configured.\n");
+
+    /* init modules */
     keyboard_init();
     host_set_driver(&lufa_driver);
 #ifdef SLEEP_LED_ENABLE
     sleep_led_init();
 #endif
-    sei();
 
+    print("Keyboard start.\n");
     while (1) {
         while (USB_DeviceState == DEVICE_STATE_Suspended) {
             suspend_power_down();
