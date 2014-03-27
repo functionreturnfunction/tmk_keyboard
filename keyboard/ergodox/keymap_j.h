@@ -1,3 +1,5 @@
+#include "action_layer.h"
+
 static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Keymap 0: Default Layer
      *
@@ -10,7 +12,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------| ~L1  |           | ~L1  |------+------+------+------+------+--------|
      * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | LCtrl| Nop  | LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RAlt |
+     *   | LCtrl| Layer| LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RAlt |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        | Home | End  |       | Del  | Ins  |
@@ -26,7 +28,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          TAB,    Q,    W,    E,    R,    T,   NO,
         BSLS,    A,    S,    D,    F,    G,
         LSFT,    Z,    X,    C,    V,    B,  FN1,
-        LCTL,   NO, LGUI, LALT, LALT,
+        LCTL, FN29, LGUI, LALT, LALT,
                                       HOME,  END,
                                             PGUP,
                                  FN2, BSPC, PGDN,
@@ -52,10 +54,10 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
      * |  TRNS  |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |   1  |   2  |   3  | TRNS |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | TRNS | Btn2 | TRNS | TRNS | TRNS |                                       |   0  |   0  |   .  | Btn1 | Btn2 |
+     *   | TRNS | Layer| TRNS | TRNS | TRNS |                                       |   0  |   0  |   .  | Btn1 | Btn2 |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
-     *                                        |  Nop |  Nop |       | Mute |  Nop |
+     *                                        | Btn2 |  Nop |       | Mute |  Nop |
      *                                 ,------|------|------|       |------+------+------.
      *                                 |      |      | TRNS |       | VolUp|      |      |
      *                                 | Btn1 | TRNS |------|       |------| TRNS | TRNS |
@@ -69,8 +71,8 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TRNS,   NO, MS_U,   NO,   NO,   NO,  FN3,
           NO, MS_L, MS_D, MS_R,   NO,   NO,
         TRNS,   NO,   NO,   NO,   NO,   NO, TRNS,
-        TRNS, BTN2, TRNS, TRNS, TRNS,
-                                        NO,   NO,
+        TRNS, FN29, TRNS, TRNS, TRNS,
+                                      BTN2,   NO,
                                             TRNS,
                                 BTN1, TRNS, TRNS,
         // right hand
@@ -95,7 +97,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
      * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  M-< |  M-> |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   |  Nop |  Nop |  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |TEENSY|
+     *   |  Nop | Layer|  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |TEENSY|
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        |  Nop |  Nop |       |  Nop |  Nop |
@@ -112,7 +114,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          FN6,  NO,  NO,  NO,  NO,FN20, FN3,
          FN7,  NO,FN15,  NO,FN10,  NO,
           NO,  NO,  NO,  NO,  NO,  NO,  NO,
-          NO,  NO,  NO,  NO,  NO,
+          NO,FN29,  NO,  NO,  NO,
                                    NO,  NO,
                                         NO,
                             TRNS,  NO,  NO,
@@ -138,7 +140,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
      * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | LCtrl| Nop  | LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RAlt |
+     *   | LCtrl| Layer| LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RAlt |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        | Home | End  |       | Del  | Ins  |
@@ -155,7 +157,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          TAB,    Q,    W,    E,    R,    T, TRNS,
         BSLS,    A,    S,    D,    F,    G,
         LSFT,    Z,    X,    C,    V,    B,   NO,
-        LCTL,   NO, LGUI, LALT, LALT,
+        LCTL, FN29, LGUI, LALT, LALT,
                                       HOME,  END,
                                             PGUP,
                                  SPC, BSPC, PGDN,
@@ -175,6 +177,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 enum function_id {
     TEENSY_KEY,
     BLINKENLIGHTS,
+    STATE_LAYER,
 };
 
 /* id for user-defined macros */
@@ -283,9 +286,34 @@ static const uint16_t PROGMEM fn_actions[] = {
     [19] =     ACTION_MACRO(END_OF_BUFFER),                    // FN19 - M->
     [20] =     ACTION_MACRO(THATS_WHAT_SHE_SAID),              // FN20 - twss
 
+    [29] =     ACTION_FUNCTION(STATE_LAYER),                   // FN29 - state layer
     [30] =     ACTION_FUNCTION(BLINKENLIGHTS),                 // FN30 - das blinkenlights
     [31] =     ACTION_FUNCTION(TEENSY_KEY),                    // FN31 - teensy key
 }; // NOTE TO J: YOU ONLY HAVE 32 OF THESE TO PLAY WITH, BUT THERE MAY BE WAYS TO WORK AROUND THAT
+
+void state_layer(keyrecord_t *record)
+{
+    uint8_t layer = biton32(layer_state);
+    keyevent_t event = record->event;
+    const macro_t *macro;
+
+    switch (layer) {
+        case 0:
+            macro = SIMPLE_MACRO(T(D), T(E), T(F), T(A), T(U), T(L), T(T));
+            break;
+        case 1:
+            macro = SIMPLE_MACRO(T(N), T(U), T(M), T(B), T(E), T(R), T(S));
+            break;
+        case 2:
+            macro = SIMPLE_MACRO(T(M), T(A), T(C), T(R), T(O), T(S));
+            break;
+        case 3:
+            macro = SIMPLE_MACRO(T(C), T(L), T(E), T(A), T(N));
+            break;
+    }
+
+    action_macro_play(macro);
+}
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
 {
@@ -303,6 +331,9 @@ void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
             break;
         case BLINKENLIGHTS:
             ergodox_blink_all_leds();
+            break;
+        case STATE_LAYER:
+            state_layer(event);
             break;
     }
     if (id == TEENSY_KEY) {
