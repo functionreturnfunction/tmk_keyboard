@@ -70,17 +70,25 @@ void ergodox_blink_all_leds(void)
     ergodox_led_all_off();
     ergodox_led_all_set(LED_BRIGHTNESS_HI);
 #ifdef KEYMAP_J
-    ergodox_board_led_on();
-    _delay_ms(250);
-    ergodox_board_led_off();
     ergodox_right_led_1_on();
-    _delay_ms(250);
-    ergodox_right_led_1_off();
+    _delay_ms(100);
     ergodox_right_led_2_on();
-    _delay_ms(250);
-    ergodox_right_led_2_off();
+    _delay_ms(100);
     ergodox_right_led_3_on();
-    _delay_ms(250);
+    _delay_ms(100);
+    ergodox_right_led_1_off();
+    _delay_ms(100);
+    ergodox_right_led_2_off();
+    _delay_ms(100);
+    ergodox_right_led_2_on();
+    _delay_ms(100);
+    ergodox_right_led_1_on();
+    _delay_ms(100);
+    ergodox_right_led_3_off();
+    _delay_ms(100);
+    ergodox_right_led_2_off();
+    _delay_ms(100);
+    ergodox_right_led_1_off();
 #else
     ergodox_led_all_on();
     _delay_ms(333);

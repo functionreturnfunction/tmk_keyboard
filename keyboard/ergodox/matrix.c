@@ -166,19 +166,16 @@ uint8_t matrix_scan(void)
 
     ergodox_led_all_off();
 
-    switch (layer) {
-        case 1:
-            // yellow
-            ergodox_right_led_2_on();
-            break;
-        case 2:
-            // green
-            ergodox_right_led_3_on();
-            break;
-        case 3:
-            // red
-            ergodox_right_led_1_on();
-            break;
+    if (layer & 1) {
+        ergodox_right_led_1_on();
+    }
+
+    if (layer & 2) {
+        ergodox_right_led_2_on();
+    }
+
+    if (layer & 4) {
+        ergodox_right_led_3_on();
     }
 #endif
 
