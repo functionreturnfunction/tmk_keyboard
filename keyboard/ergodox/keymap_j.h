@@ -48,7 +48,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  L0    |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |  Nop   |
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * |  TRNS  |  Nop |MousUp|  Nop |  Nop |  Nop |  L3  |           |  Nop |  Nop |   7  |   8  |   9  |  Nop |  Nop   |
+     * |  TRNS  |  Nop |MousUp|  Nop |  Nop |  Nop |  L3  |           |  L4  |  Nop |   7  |   8  |   9  |  Nop |  Nop   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * |  Nop   |MousLf|MousDn|MousRt|  Nop |  Nop |------|           |------|  Nop |   4  |   5  |   6  |  Nop |  Nop   |
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
@@ -77,7 +77,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 BTN1, TRNS, TRNS,
         // right hand
           F7,   F8,   F9,  F10,  F11,  F12,   NO,
-          NO,   NO,   P7,   P8,   P9,   NO,   NO,
+         FN4,   NO,   P7,   P8,   P9,   NO,   NO,
                 NO,   P4,   P5,   P6,   NO,   NO,
         TRNS,   NO,   P1,   P2,   P3, TRNS,   NO,
                       P0,   P0,  DOT, BTN1, BTN2,
@@ -91,7 +91,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  L0    | C-x 1| C-x 2| C-x 3|  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Indent |  Nop |  Nop |  Nop |  Nop | TWSS |  L3  |           | M-{  |      |  Nop |  Nop |  Nop |  Nop |  M-}   |
+     * | Indent |  Nop |  Nop |  Nop |  Nop | TWSS |  Nop |           |  M-{ |  Nop |  Nop |  Nop |  Nop |  Nop |  M-}   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * | IndentB|  Nop |C-xC-s|  Nop |C-xC-f|  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
@@ -111,7 +111,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(
         // left hand
          FN0,FN12,FN13,FN14,  NO,  NO,  NO,
-         FN6,  NO,  NO,  NO,  NO,FN20, FN3,
+         FN6,  NO,  NO,  NO,  NO,FN20,  NO,
          FN7,  NO,FN15,  NO,FN10,  NO,
           NO,  NO,  NO,  NO,  NO,  NO,  NO,
           NO,FN29,  NO,  NO,  NO,
@@ -129,7 +129,50 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           NO,  NO,FN30
     ),
 
-    /* Keymap 3: Clean Layer
+    /* Keymap 3: Gaming Layer
+     *
+     * ,--------------------------------------------------.            ,--------------------------------------------------.
+     * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |            |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * |--------+------+------+------+------+-------------|            |------+------+------+------+------+------+--------|
+     * | Tab    |   Q  |   W  |   E  |   R  |   T  |  L0  |            |  Nop |  Nop |  Nop |  Up  |  Nop |  Nop |  Nop   |
+     * |--------+------+------+------+------+------|      |            |      |------+------+------+------+------+--------|
+     * | \      |   A  |   S  |   D  |   F  |   G  |------|            |------|  Nop |  Lft |  Dn  | Rght |  Nop |  Nop   |
+     * |--------+------+------+------+------+------|  Nop |            |  Nop |------+------+------+------+------+--------|
+     * | LShift |   Z  |   X  |   C  |   V  |   B  |      |            |      |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * `--------+------+------+------+------+-------------'            `-------------+------+------+------+------+--------'
+     *   | LCtrl| Layer| LGui | LAlt | LAlt |                                        |  Alt |  Nop |  Nop |  Nop | Ctrl |
+     *   `----------------------------------'                                        `----------------------------------'
+     *                                        ,-------------.        ,-------------.
+     *                                        | Home | End  |        |  Nop |  Nop |
+     *                                 ,------|------|------|        |------+------+------.
+     *                                 |      |      | PgDn |        |  Nop |      |      |
+     *                                 | Space| BkSpc|------|        |------|  Nop | Space|
+     *                                 |      |      | PgUp |        |  Nop |      |      |
+     *                                 `--------------------'        `--------------------'
+     */
+
+    KEYMAP(
+        // left hand
+         ESC,    1,    2,    3,    4,    5,    6,
+         TAB,    Q,    W,    E,    R,    T,  FN0,
+        BSLS,    A,    S,    D,    F,    G,
+        LSFT,    Z,    X,    C,    V,    B,   NO,
+        LCTL, FN29, LGUI, LALT, LALT,
+                                      HOME,  END,
+                                            PGUP,
+                                 SPC, BSPC, PGDN,
+        // right hand
+          NO,  NO,  NO,  NO,  NO,  NO,  NO,
+          NO,  NO,  NO,  UP,  NO,  NO,  NO,
+               NO,LEFT,DOWN,RGHT,  NO,  NO,
+          NO,  NO,  NO,  NO,  NO,  NO,  NO,
+                  RALT,  NO,  NO,  NO,RCTL,
+          NO,  NO,
+          NO,
+          NO,  NO, SPC
+    ),
+
+    /* Keymap 4: Clean Layer
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |           |   `  |   7  |   8  |   9  |   0  |   -  |   =    |
@@ -154,7 +197,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(
         // left hand
          ESC,    1,    2,    3,    4,    5,    6,
-         TAB,    Q,    W,    E,    R,    T, TRNS,
+         TAB,    Q,    W,    E,    R,    T,  FN0,
         BSLS,    A,    S,    D,    F,    G,
         LSFT,    Z,    X,    C,    V,    B,   NO,
         LCTL, FN29, LGUI, LALT, LALT,
@@ -207,6 +250,7 @@ static const uint16_t PROGMEM fn_actions[] = {
     [ 1] =     ACTION_LAYER_TAP_TOGGLE(1),                     // FN1  - tap/toggle Layer1
     [ 2] =     ACTION_LAYER_TAP_KEY(2, KC_SPC),                // FN2  - space when tapped, layer2 when held
     [ 3] =     ACTION_LAYER_TOGGLE(3),                         // FN3  - toggle layer 3
+    [ 4] =     ACTION_LAYER_TOGGLE(4),                         // FN4  - toggle layer 4
 
     [ 6] =     ACTION_MACRO(INDENT),                           // FN6  - indent current line
     [ 7] =     ACTION_MACRO(INDENT_BUFFER),                    // FN7  - indent current buffer
@@ -306,6 +350,9 @@ void state_layer(keyevent_t event)
             macro = SIMPLE_MACRO(T(M), T(A), T(C), T(R), T(O), T(S));
             break;
         case 3:
+            macro = SIMPLE_MACRO(T(G), T(A), T(M), T(I), T(N), T(G));
+            break;
+        case 4:
             macro = SIMPLE_MACRO(T(C), T(L), T(E), T(A), T(N));
             break;
         default:
@@ -366,7 +413,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
      *                                 |      |      |  Nop |       |  Nop |      |      |
      *                                 |  Nop |  Nop |------|       |------|  Nop |  Nop |
      *                                 |      |      |  Nop |       |  Nop |      |      |
-     *                                 `--------------------'       `--------------------'
+     *                                 `--------------------'       `--------------------'                                  
     KEYMAP(
         // left hand
           NO,  NO,  NO,  NO,  NO,  NO,  NO,
