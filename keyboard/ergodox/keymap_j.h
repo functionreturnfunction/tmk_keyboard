@@ -1,4 +1,5 @@
 #include "action_layer.h"
+#include "command.h"
 
 static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Keymap 0: Default Layer
@@ -54,7 +55,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
      * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  M-< |  M-> |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   |  Nop | Layer|  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |TEENSY|
+     *   |  Nop | Layer|  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |  Nop |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        |  Nop |  Nop |       |  Nop |  Nop |
@@ -67,23 +68,23 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     KEYMAP(
         // left hand
-         FN0,FN12,FN13,FN14,  NO,  NO,  NO,
-         FN6,  NO,  NO,  NO,  NO,FN20,  NO,
-         FN7,  NO,FN15,  NO,FN10,  NO,
-          NO,  NO,  NO,  NO,  NO,  NO,  NO,
-          NO,FN29,  NO,  NO,  NO,
-                                   NO,  NO,
-                                        NO,
-                            TRNS,  NO,  NO,
+         FN0, FN12, FN13, FN14,   NO,   NO,   NO,
+         FN6,   NO,   NO,   NO,   NO, FN20,   NO,
+         FN7,   NO, FN15,   NO, FN10,   NO,
+          NO,   NO,   NO,   NO,   NO,   NO,   NO,
+          NO, FN29,   NO,   NO,   NO,
+                                        NO,   NO,
+                                              NO,
+                                TRNS,   NO,   NO,
         // right hand
-        FN11,  NO,  NO,  NO,  NO,  NO, FN8,
-        FN16,  NO,  NO,  NO,  NO,  NO,FN17,
-               NO,  NO,  NO,  NO,  NO,  NO,
-          NO,  NO,  NO,FN18,FN19,  NO,  NO,
-                    NO,  NO,  NO,  NO,FN31,
-          NO,  NO,
+        FN11,   NO,   NO,   NO,   NO,   NO,  FN8,
+        FN16,   NO,   NO,   NO,   NO,   NO, FN17,
+                NO,   NO,   NO,   NO,   NO,   NO,
+          NO,   NO,   NO, FN18, FN19,   NO,   NO,
+                      NO,   NO,   NO,   NO,   NO,
+          NO,   NO,
           NO,
-          NO,  NO,FN30
+          NO,   NO, FN30
     ),
 
     /* Keymap 2: Fn keys, number pad, mouse controls
@@ -131,24 +132,24 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* Keymap 3: Gaming Layer
      *
-     * ,--------------------------------------------------.            ,--------------------------------------------------.
-     * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |            |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
-     * |--------+------+------+------+------+-------------|            |------+------+------+------+------+------+--------|
-     * | Tab    |   Q  |   W  |   E  |   R  |   T  |  L0  |            |  Nop |  Nop |  Nop |  Up  |  Nop |  Nop |  Nop   |
-     * |--------+------+------+------+------+------|      |            |      |------+------+------+------+------+--------|
-     * | \      |   A  |   S  |   D  |   F  |   G  |------|            |------|  Nop |  Lft |  Dn  | Rght |  Nop |  Nop   |
-     * |--------+------+------+------+------+------|  Nop |            |  Nop |------+------+------+------+------+--------|
-     * | LShift |   Z  |   X  |   C  |   V  |   B  |      |            |      |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
-     * `--------+------+------+------+------+-------------'            `-------------+------+------+------+------+--------'
-     *   | LCtrl| Layer| LGui | LAlt | LAlt |                                        |  Alt |  Nop |  Nop |  Nop | Ctrl |
-     *   `----------------------------------'                                        `----------------------------------'
-     *                                        ,-------------.        ,-------------.
-     *                                        | Home | End  |        |  Nop |  Nop |
-     *                                 ,------|------|------|        |------+------+------.
-     *                                 |      |      | PgDn |        |  Nop |      |      |
-     *                                 | Space| BkSpc|------|        |------|  Nop | Space|
-     *                                 |      |      | PgUp |        |  Nop |      |      |
-     *                                 `--------------------'        `--------------------'
+     * ,--------------------------------------------------.           ,--------------------------------------------------.
+     * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |           |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+     * | Tab    |   Q  |   W  |   E  |   R  |   T  |  L0  |           |  Nop |  Nop |  Nop |  Up  |  Nop |  Nop |  Nop   |
+     * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+     * | \      |   A  |   S  |   D  |   F  |   G  |------|           |------|  Nop |  Lft |  Dn  | Rght |  Nop |  Nop   |
+     * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
+     * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+     *   | LCtrl| Layer| LGui | LAlt | LAlt |                                       |  Alt |  Nop |  Nop |  Nop | Ctrl |
+     *   `----------------------------------'                                       `----------------------------------'
+     *                                        ,-------------.       ,-------------.
+     *                                        | Home | End  |       |  Nop |  Nop |
+     *                                 ,------|------|------|       |------+------+------.
+     *                                 |      |      | PgDn |       |  Nop |      |      |
+     *                                 | Space| BkSpc|------|       |------|  Nop | Space|
+     *                                 |      |      | PgUp |       |  Nop |      |      |
+     *                                 `--------------------'       `--------------------'
      */
 
     KEYMAP(
@@ -218,7 +219,6 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* id for user defined functions */
 enum function_id {
-    TEENSY_KEY,
     BLINKENLIGHTS,
     STATE_LAYER,
 };
@@ -269,7 +269,6 @@ static const uint16_t PROGMEM fn_actions[] = {
 
     [29] =     ACTION_FUNCTION(STATE_LAYER),                   // FN29 - state layer
     [30] =     ACTION_FUNCTION(BLINKENLIGHTS),                 // FN30 - das blinkenlights
-    [31] =     ACTION_FUNCTION(TEENSY_KEY),                    // FN31 - teensy key
 }; // NOTE TO J: YOU ONLY HAVE 32 OF THESE TO PLAY WITH, BUT THERE MAY BE WAYS TO WORK AROUND THAT
 
 #define C_(...) D(LCTRL), __VA_ARGS__, U(LCTRL)
@@ -282,7 +281,8 @@ static const uint16_t PROGMEM fn_actions[] = {
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
     keyevent_t event = record->event;
-    tap_t tap = record->tap;
+    // TODO: figure out what this guy does!
+    // tap_t tap = record->tap;
 
     switch (id) {
             // move to the beginning of the line, press tab, move to the next line
@@ -327,6 +327,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             // M->
         case END_OF_BUFFER:
             return NAVIGATE_MACRO(DOT);
+            // twss
         case THATS_WHAT_SHE_SAID:
             return SIMPLE_MACRO(T(T), T(W), T(S), T(S));
     }
@@ -368,22 +369,12 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
     keyevent_t event = record->event;
 
-    print("action_function called\n");
-    print("id  = "); phex(id); print("\n");
-    print("opt = "); phex(opt); print("\n");
-
+    // ensure we're not duplicating a command
     if (!event.pressed) {
         return;
     }
 
     switch (id) {
-        case TEENSY_KEY:
-            clear_keyboard();
-            print("\n\nJump to bootloader... ");
-            _delay_ms(250);
-            bootloader_jump(); // should not return
-            print("not supported.\n");
-            break;
         case BLINKENLIGHTS:
             ergodox_blink_all_leds();
             break;
