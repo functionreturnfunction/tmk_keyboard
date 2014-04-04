@@ -144,11 +144,11 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *   | LCtrl| Layer| LGui | LAlt | LAlt |                                       |  Alt |  Nop |  Nop |  Nop | Ctrl |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
-     *                                        | Home | End  |       |  Nop |  Nop |
+     *                                        | Home | End  |       | Mute |  Nop |
      *                                 ,------|------|------|       |------+------+------.
-     *                                 |      |      | PgDn |       |  Nop |      |      |
-     *                                 | Space| BkSpc|------|       |------|  Nop | Space|
-     *                                 |      |      | PgUp |       |  Nop |      |      |
+     *                                 |      |      | PgDn |       | VolUp|      |      |
+     *                                 | Space| BkSpc|------|       |------| Enter| Space|
+     *                                 |      |      | PgUp |       | VolDn|      |      |
      *                                 `--------------------'       `--------------------'
      */
 
@@ -168,9 +168,9 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                NO,LEFT,DOWN,RGHT,  NO,  NO,
           NO,  NO,  NO,  NO,  NO,  NO,  NO,
                   RALT,  NO,  NO,  NO,RCTL,
-          NO,  NO,
-          NO,
-          NO,  NO, SPC
+        MUTE,  NO,
+        VOLU,
+        VOLD, ENT, SPC
     ),
 
     /* Keymap 4: Clean Layer
