@@ -184,15 +184,6 @@ void EVENT_USB_Device_StartOfFrame(void)
 /** Event handler for the USB_ConfigurationChanged event.
  * This is fired when the host sets the current configuration of the USB device after enumeration.
  */
-#if LUFA_VERSION_INTEGER < 0x120730
-    /* old API 120219 */
-    #define ENDPOINT_CONFIG(epnum, eptype, epdir, epsize, epbank)    Endpoint_ConfigureEndpoint(epnum, eptype, epdir, epsize, epbank)
-#else
-    /* new API >= 120730 */
-    #define ENDPOINT_BANK_SINGLE 1
-    #define ENDPOINT_BANK_DOUBLE 2
-    #define ENDPOINT_CONFIG(epnum, eptype, epdir, epsize, epbank)    Endpoint_ConfigureEndpoint((epdir) | (epnum) , eptype, epsize, epbank)
-#endif
 void EVENT_USB_Device_ConfigurationChanged(void)
 {
     bool ConfigSuccess = true;
@@ -351,7 +342,7 @@ static uint8_t keyboard_leds(void)
 
 static void send_keyboard(report_keyboard_t *report)
 {
-    uint8_t timeout = 0;
+    uint8_t timeout = 255;
 
     if (USB_DeviceState != DEVICE_STATE_Configured)
         return;
@@ -360,15 +351,20 @@ static void send_keyboard(report_keyboard_t *report)
 #ifdef NKRO_ENABLE
     if (keyboard_nkro) {
         Endpoint_SelectEndpoint(NKRO_IN_EPNUM);
+
+        /* Check if write ready for a polling interval around 1ms */
+        while (timeout-- && !Endpoint_IsReadWriteAllowed()) _delay_us(4);
+        if (!Endpoint_IsReadWriteAllowed()) return;
     }
     else
 #endif
     {
         Endpoint_SelectEndpoint(KEYBOARD_IN_EPNUM);
-    }
 
-    /* Check if Keyboard Endpoint Ready for Read/Write */
-    while (--timeout && !Endpoint_IsReadWriteAllowed()) ;
+        /* Check if write ready for a polling interval around 10ms */
+        while (timeout-- && !Endpoint_IsReadWriteAllowed()) _delay_us(40);
+        if (!Endpoint_IsReadWriteAllowed()) return;
+    }
 
     /* Write Keyboard Report Data */
 #ifdef NKRO_ENABLE
@@ -391,7 +387,7 @@ static void send_keyboard(report_keyboard_t *report)
 static void send_mouse(report_mouse_t *report)
 {
 #ifdef MOUSE_ENABLE
-    uint8_t timeout = 0;
+    uint8_t timeout = 255;
 
     if (USB_DeviceState != DEVICE_STATE_Configured)
         return;
@@ -399,8 +395,9 @@ static void send_mouse(report_mouse_t *report)
     /* Select the Mouse Report Endpoint */
     Endpoint_SelectEndpoint(MOUSE_IN_EPNUM);
 
-    /* Check if Mouse Endpoint Ready for Read/Write */
-    while (--timeout && !Endpoint_IsReadWriteAllowed()) ;
+    /* Check if write ready for a polling interval around 10ms */
+    while (timeout-- && !Endpoint_IsReadWriteAllowed()) _delay_us(40);
+    if (!Endpoint_IsReadWriteAllowed()) return;
 
     /* Write Mouse Report Data */
     Endpoint_Write_Stream_LE(report, sizeof(report_mouse_t), NULL);
@@ -412,7 +409,7 @@ static void send_mouse(report_mouse_t *report)
 
 static void send_system(uint16_t data)
 {
-    uint8_t timeout = 0;
+    uint8_t timeout = 255;
 
     if (USB_DeviceState != DEVICE_STATE_Configured)
         return;
@@ -422,14 +419,18 @@ static void send_system(uint16_t data)
         .usage = data
     };
     Endpoint_SelectEndpoint(EXTRAKEY_IN_EPNUM);
-    while (--timeout && !Endpoint_IsReadWriteAllowed()) ;
+
+    /* Check if write ready for a polling interval around 10ms */
+    while (timeout-- && !Endpoint_IsReadWriteAllowed()) _delay_us(40);
+    if (!Endpoint_IsReadWriteAllowed()) return;
+
     Endpoint_Write_Stream_LE(&r, sizeof(report_extra_t), NULL);
     Endpoint_ClearIN();
 }
 
 static void send_consumer(uint16_t data)
 {
-    uint8_t timeout = 0;
+    uint8_t timeout = 255;
 
     if (USB_DeviceState != DEVICE_STATE_Configured)
         return;
@@ -439,7 +440,11 @@ static void send_consumer(uint16_t data)
         .usage = data
     };
     Endpoint_SelectEndpoint(EXTRAKEY_IN_EPNUM);
-    while (--timeout && !Endpoint_IsReadWriteAllowed()) ;
+
+    /* Check if write ready for a polling interval around 10ms */
+    while (timeout-- && !Endpoint_IsReadWriteAllowed()) _delay_us(40);
+    if (!Endpoint_IsReadWriteAllowed()) return;
+
     Endpoint_Write_Stream_LE(&r, sizeof(report_extra_t), NULL);
     Endpoint_ClearIN();
 }
