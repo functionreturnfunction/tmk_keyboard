@@ -7,7 +7,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |           |   `  |   7  |   8  |   9  |   0  |   -  |   =    |
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Tab    |   Q  |   W  |   E  |   R  |   T  | LEDs |           | [    |   Y  |   U  |   I  |   O  |   P  |   ]    |
+     * | Tab    |   Q  |   W  |   E  |   R  |   T  |  Nop |           | [    |   Y  |   U  |   I  |   O  |   P  |   ]    |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * | \      |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  | '      |
      * |--------+------+------+------+------+------| ~L2  |           | ~L2  |------+------+------+------+------+--------|
@@ -26,7 +26,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(
         // left hand
          ESC,    1,    2,    3,    4,    5,    6,
-         TAB,    Q,    W,    E,    R,    T, FN30,
+         TAB,    Q,    W,    E,    R,    T,   NO,
         BSLS,    A,    S,    D,    F,    G,
         LSFT,    Z,    X,    C,    V,    B,  FN1,
         LCTL, FN29, LGUI, LALT, LALT,
@@ -47,7 +47,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Keymap 1: Macro Keys
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
-     * |  L0    | C-x 1| C-x 2| C-x 3|  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
+     * |  Lock  | C-x 1| C-x 2| C-x 3|  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
      * | Indent |  Nop |  Nop |  Nop |  Nop | TWSS |  Nop |           |  M-{ |  Nop |  Nop |  Nop |  Nop |  Nop |  M-}   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -68,7 +68,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     KEYMAP(
         // left hand
-         FN0, FN12, FN13, FN14,   NO,   NO,   NO,
+         FN9, FN12, FN13, FN14,   NO,   NO,   NO,
          FN6,   NO,   NO,   NO,   NO, FN20,   NO,
          FN7,   NO, FN15,   NO, FN10,   NO,
           NO,   NO,   NO,   NO,   NO,   NO,   NO,
@@ -240,6 +240,7 @@ enum macro_id {
     BEGINNING_OF_BUFFER,
     END_OF_BUFFER,
     THATS_WHAT_SHE_SAID,
+    LOCK_MACHINE,
 };
 
 /*
@@ -255,6 +256,7 @@ static const uint16_t PROGMEM fn_actions[] = {
     [ 6] =     ACTION_MACRO(INDENT),                           // FN6  - indent current line
     [ 7] =     ACTION_MACRO(INDENT_BUFFER),                    // FN7  - indent current buffer
     [ 8] =     ACTION_MACRO(HASH_ROCKET),                      // FN8  - type =>
+    [ 9] =     ACTION_MACRO(LOCK_MACHINE),                     // FN9  - Win+L
     [10] =     ACTION_MACRO(FIND_FILE),                        // FN10 - C-x, C-f
     [11] =     ACTION_MACRO(HOME_PATH),                        // FN11 - type ~/
     [12] =     ACTION_MACRO(DELETE_OTHER_WINDOWS),             // FN12 - C-x 1
@@ -330,6 +332,9 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             // twss
         case THATS_WHAT_SHE_SAID:
             return SIMPLE_MACRO(T(T), T(W), T(S), T(S));
+            // Win+L
+        case LOCK_MACHINE:
+            return SIMPLE_MACRO(D(LGUI), T(L), U(LGUI));
     }
 
     return MACRO_NONE;
