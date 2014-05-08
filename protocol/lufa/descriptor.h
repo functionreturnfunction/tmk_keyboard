@@ -137,13 +137,17 @@ typedef struct
 
 #ifdef CONSOLE_ENABLE
 #   define CONSOLE_IN_EPNUM         (EXTRAKEY_IN_EPNUM + 1)
-#   define CONSOLE_OUT_EPNUM        (EXTRAKEY_IN_EPNUM + 2)
+#   define CONSOLE_OUT_EPNUM        (EXTRAKEY_IN_EPNUM + 1)
+//#   define CONSOLE_OUT_EPNUM        (EXTRAKEY_IN_EPNUM + 2)
 #else
 #   define CONSOLE_OUT_EPNUM        EXTRAKEY_IN_EPNUM
 #endif
 
 #ifdef NKRO_ENABLE
 #   define NKRO_IN_EPNUM            (CONSOLE_OUT_EPNUM + 1)
+#   if defined(__AVR_ATmega32U2__) && NKRO_IN_EPNUM > 4
+#       error "Endpoints are not available enough to support all functions. Remove some in Makefile.(MOUSEKEY, EXTRAKEY, CONSOLE, NKRO)"
+#   endif
 #endif
 
 
@@ -162,6 +166,7 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
 
 /* new API */
 #if LUFA_VERSION_INTEGER < 0x140302
+    #undef VERSION_BCD
     #define VERSION_BCD(Major, Minor, Revision) \
                                               CPU_TO_LE16( ((Major & 0xFF) << 8) | \
                                                            ((Minor & 0x0F) << 4) | \
