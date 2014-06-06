@@ -10,7 +10,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | Tab    |   Q  |   W  |   E  |   R  |   T  |  Nop |           | [    |   Y  |   U  |   I  |   O  |   P  |   ]    |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * | \      |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  | '      |
-     * |--------+------+------+------+------+------| ~L2  |           | ~L2  |------+------+------+------+------+--------|
+     * |--------+------+------+------+------+------| ~L3  |           | ~L3  |------+------+------+------+------+--------|
      * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
      *   | LCtrl| Layer| LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RAlt |
@@ -44,7 +44,50 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         PAUS,  ENT, SPC
     ),
 
-    /* Keymap 1: Macro Keys
+    /* Keymap 1: Clean Layer
+     *
+     * ,--------------------------------------------------.           ,--------------------------------------------------.
+     * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |           |   `  |   7  |   8  |   9  |   0  |   -  |   =    |
+     * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+     * | Tab    |   Q  |   W  |   E  |   R  |   T  |  L0  |           |  [   |   Y  |   U  |   I  |   O  |   P  |   ]    |
+     * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+     * | \      |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  | '      |
+     * |--------+------+------+------+------+------|  ~L3 |           |  ~L3 |------+------+------+------+------+--------|
+     * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
+     * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+     *   | LCtrl| Layer| LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RAlt |
+     *   `----------------------------------'                                       `----------------------------------'
+     *                                        ,-------------.       ,-------------.
+     *                                        | Home | End  |       | Del  | Ins  |
+     *                                 ,------|------|------|       |------+------+------.
+     *                                 |      |      | PgDn |       | PrScr|      |      |
+     *                                 | Space| BkSpc|------|       |------| Enter| Space|
+     *                                 |      |      | PgUp |       | Pause|      |      |
+     *                                 `--------------------'       `--------------------'
+     */
+
+    KEYMAP(
+        // left hand
+         ESC,    1,    2,    3,    4,    5,    6,
+         TAB,    Q,    W,    E,    R,    T,  FN0,
+        BSLS,    A,    S,    D,    F,    G,
+        LSFT,    Z,    X,    C,    V,    B,  FN1,
+        LCTL, FN29, LGUI, LALT, LALT,
+                                      HOME,  END,
+                                            PGUP,
+                                 SPC, BSPC, PGDN,
+        // right hand
+         GRV,    7,    8,    9,    0, MINS,  EQL,
+        LBRC,    Y,    U,    I,    O,    P, RBRC,
+                 H,    J,    K,    L, SCLN, QUOT,
+         FN1,    N,    M, COMM,  DOT, SLSH, RSFT,
+                    LEFT, DOWN,   UP, RGHT, RALT,
+         DEL,  INS,
+        PSCR,
+        PAUS,  ENT, SPC
+    ),
+
+    /* Keymap 2: Macro Keys
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  Lock  | C-x 1| C-x 2| C-x 3|  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
@@ -87,12 +130,12 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           NO,   NO, FN30
     ),
 
-    /* Keymap 2: Fn keys, number pad, mouse controls
+    /* Keymap 3: Fn keys, number pad, mouse controls
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  L0    |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |  Nop   |
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * |  TRNS  |  Nop |MousUp|  Nop |  Nop |  Nop |  L3  |           |  L4  |  Nop |   7  |   8  |   9  |  Nop |  Nop   |
+     * |  TRNS  |  Nop |MousUp|  Nop |  Nop |  Nop |  L4  |           |  L2  |  Nop |   7  |   8  |   9  |  Nop |  Nop   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * |  Nop   |MousLf|MousDn|MousRt|  Nop |  Nop |------|           |------|  Nop |   4  |   5  |   6  |  Nop |  Nop   |
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
@@ -130,7 +173,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         VOLD, TRNS, TRNS
     ),
 
-    /* Keymap 3: Gaming Layer
+    /* Keymap 4: Gaming Layer
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |           |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
@@ -173,48 +216,6 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         VOLD, ENT, SPC
     ),
 
-    /* Keymap 4: Clean Layer
-     *
-     * ,--------------------------------------------------.           ,--------------------------------------------------.
-     * | Esc    |   1  |   2  |   3  |   4  |   5  |   6  |           |   `  |   7  |   8  |   9  |   0  |   -  |   =    |
-     * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Tab    |   Q  |   W  |   E  |   R  |   T  |  L0  |           |  [   |   Y  |   U  |   I  |   O  |   P  |   ]    |
-     * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-     * | \      |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  | '      |
-     * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
-     * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
-     * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | LCtrl| Layer| LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RAlt |
-     *   `----------------------------------'                                       `----------------------------------'
-     *                                        ,-------------.       ,-------------.
-     *                                        | Home | End  |       | Del  | Ins  |
-     *                                 ,------|------|------|       |------+------+------.
-     *                                 |      |      | PgDn |       | PrScr|      |      |
-     *                                 | Space| BkSpc|------|       |------| Enter| Space|
-     *                                 |      |      | PgUp |       | Pause|      |      |
-     *                                 `--------------------'       `--------------------'
-     */
-
-    KEYMAP(
-        // left hand
-         ESC,    1,    2,    3,    4,    5,    6,
-         TAB,    Q,    W,    E,    R,    T,  FN0,
-        BSLS,    A,    S,    D,    F,    G,
-        LSFT,    Z,    X,    C,    V,    B,   NO,
-        LCTL, FN29, LGUI, LALT, LALT,
-                                      HOME,  END,
-                                            PGUP,
-                                 SPC, BSPC, PGDN,
-        // right hand
-         GRV,    7,    8,    9,    0, MINS,  EQL,
-        LBRC,    Y,    U,    I,    O,    P, RBRC,
-                 H,    J,    K,    L, SCLN, QUOT,
-          NO,    N,    M, COMM,  DOT, SLSH, RSFT,
-                    LEFT, DOWN,   UP, RGHT, RALT,
-         DEL,  INS,
-        PSCR,
-        PAUS,  ENT, SPC
-    ),
 };
 
 /* id for user defined functions */
@@ -248,10 +249,10 @@ enum macro_id {
  */
 static const uint16_t PROGMEM fn_actions[] = {
     [ 0] =     ACTION_LAYER_SET(0, ON_RELEASE),                // FN0  - switch to layer0
-    [ 1] =     ACTION_LAYER_TAP_TOGGLE(2),                     // FN1  - tap/toggle Layer2
-    [ 2] =     ACTION_LAYER_TAP_KEY(1, KC_SPC),                // FN2  - space when tapped, layer1 when held
-    [ 3] =     ACTION_LAYER_TOGGLE(3),                         // FN3  - toggle layer 3
-    [ 4] =     ACTION_LAYER_TOGGLE(4),                         // FN4  - toggle layer 4
+    [ 1] =     ACTION_LAYER_TAP_TOGGLE(3),                     // FN1  - tap/toggle Layer3
+    [ 2] =     ACTION_LAYER_TAP_KEY(2, KC_SPC),                // FN2  - space when tapped, layer2 when held
+    [ 3] =     ACTION_LAYER_TOGGLE(4),                         // FN3  - toggle layer4
+    [ 4] =     ACTION_LAYER_TOGGLE(1),                         // FN4  - toggle layer1
 
     [ 6] =     ACTION_MACRO(INDENT),                           // FN6  - indent current line
     [ 7] =     ACTION_MACRO(INDENT_BUFFER),                    // FN7  - indent current buffer
