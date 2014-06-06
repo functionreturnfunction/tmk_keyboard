@@ -94,7 +94,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
      * | Indent |  Nop |  Nop |  Nop |  Nop | TWSS |  Nop |           |  M-{ |  Nop |  Nop |  Nop |  Nop |  Nop |  M-}   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-     * | IndentB|  Nop |C-xC-s|  Nop |C-xC-f|  Nop |------|           |------|  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
+     * | IndentB|  Nop |C-xC-s|  Nop |C-xC-f|  Nop |------|           |------|  Nop |  Nop | KillB|  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
      * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  M-< |  M-> |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
@@ -122,7 +122,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // right hand
         FN11,   NO,   NO,   NO,   NO,   NO,  FN8,
         FN16,   NO,   NO,   NO,   NO,   NO, FN17,
-                NO,   NO,   NO,   NO,   NO,   NO,
+                NO,   NO, FN21,   NO,   NO,   NO,
           NO,   NO,   NO, FN18, FN19,   NO,   NO,
                       NO,   NO,   NO,   NO,   NO,
           NO,   NO,
@@ -242,6 +242,7 @@ enum macro_id {
     END_OF_BUFFER,
     THATS_WHAT_SHE_SAID,
     LOCK_MACHINE,
+    KILL_BUFFER,
 };
 
 /*
@@ -269,6 +270,7 @@ static const uint16_t PROGMEM fn_actions[] = {
     [18] =     ACTION_MACRO(BEGINNING_OF_BUFFER),              // FN18 - M-<
     [19] =     ACTION_MACRO(END_OF_BUFFER),                    // FN19 - M->
     [20] =     ACTION_MACRO(THATS_WHAT_SHE_SAID),              // FN20 - twss
+    [21] =     ACTION_MACRO(KILL_BUFFER),                      // FN21 - kill current buffer
 
     [29] =     ACTION_FUNCTION(STATE_LAYER),                   // FN29 - state layer
     [30] =     ACTION_FUNCTION(BLINKENLIGHTS),                 // FN30 - das blinkenlights
@@ -336,6 +338,9 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             // Win+L
         case LOCK_MACHINE:
             return SIMPLE_MACRO(D(LGUI), T(L), U(LGUI));
+            // C-x, k, enter
+        case KILL_BUFFER:
+            return SIMPLE_MACRO(C_X_COMMA, T(K), T(ENT));
     }
 
     return MACRO_NONE;
