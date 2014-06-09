@@ -356,16 +356,16 @@ void state_layer(keyevent_t event)
             macro = SIMPLE_MACRO(T(D), T(E), T(F), T(A), T(U), T(L), T(T));
             break;
         case 1:
-            macro = SIMPLE_MACRO(T(N), T(U), T(M), T(B), T(E), T(R), T(S));
+            macro = SIMPLE_MACRO(T(C), T(L), T(E), T(A), T(N));
             break;
         case 2:
             macro = SIMPLE_MACRO(T(M), T(A), T(C), T(R), T(O), T(S));
             break;
         case 3:
-            macro = SIMPLE_MACRO(T(G), T(A), T(M), T(I), T(N), T(G));
+            macro = SIMPLE_MACRO(T(N), T(U), T(M), T(B), T(E), T(R), T(S));
             break;
         case 4:
-            macro = SIMPLE_MACRO(T(C), T(L), T(E), T(A), T(N));
+            macro = SIMPLE_MACRO(T(G), T(A), T(M), T(I), T(N), T(G));
             break;
         default:
             macro = SIMPLE_MACRO(T(V), SFT_(T(O)), T(V));
