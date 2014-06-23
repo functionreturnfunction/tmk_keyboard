@@ -295,7 +295,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             return SIMPLE_MACRO(C_(T(A)), T(TAB), C_(T(N)));
             // highlight the current buffer, call indent-region
         case INDENT_BUFFER:
-            return SIMPLE_MACRO(C_X_COMMA, T(H), C_(M_(T(BSLS))));
+            return SIMPLE_MACRO(C_(M_(SFT_(T(BSLS)))));
             // =>
         case HASH_ROCKET:
             return SIMPLE_MACRO(T(EQL), SFT_(T(DOT)));
