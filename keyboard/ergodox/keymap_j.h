@@ -13,7 +13,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------| ~L3  |           | ~L3  |------+------+------+------+------+--------|
      * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | LCtrl| Layer| LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RAlt |
+     *   | LCtrl| LCtrl| LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RCtrl|
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        | Home | End  |       | Del  | Ins  |
@@ -29,7 +29,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          TAB,    Q,    W,    E,    R,    T,   NO,
         BSLS,    A,    S,    D,    F,    G,
         LSFT,    Z,    X,    C,    V,    B,  FN1,
-        LCTL, FN29, LGUI, LALT, LALT,
+        LCTL, LCTL, LGUI, LALT, LALT,
                                       HOME,  END,
                                             PGUP,
                                  FN2, BSPC, PGDN,
@@ -38,7 +38,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LBRC,    Y,    U,    I,    O,    P, RBRC,
                  H,    J,    K,    L, SCLN, QUOT,
          FN1,    N,    M, COMM,  DOT, SLSH, RSFT,
-                    LEFT, DOWN,   UP, RGHT, RALT,
+                    LEFT, DOWN,   UP, RGHT, RCTL,
          DEL,  INS,
         PSCR,
         PAUS,  ENT, SPC
@@ -55,7 +55,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------|  ~L3 |           |  ~L3 |------+------+------+------+------+--------|
      * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | LCtrl| Layer| LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RAlt |
+     *   | LCtrl| LCtrl| LGui | LAlt | LAlt |                                       |  Lft |  Dn  |  Up  | Rght | RAlt |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        | Home | End  |       | Del  | Ins  |
@@ -72,7 +72,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          TAB,    Q,    W,    E,    R,    T,  FN0,
         BSLS,    A,    S,    D,    F,    G,
         LSFT,    Z,    X,    C,    V,    B,  FN1,
-        LCTL, FN29, LGUI, LALT, LALT,
+        LCTL, LCTL, LGUI, LALT, LALT,
                                       HOME,  END,
                                             PGUP,
                                  SPC, BSPC, PGDN,
@@ -94,11 +94,11 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
      * | Indent |  Nop |  Nop |  Nop |  Nop | TWSS |  Nop |           |  M-{ |  Nop |  Nop |  Nop |  Nop |  Nop |  M-}   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-     * | IndentB|  Nop |C-xC-s|  Nop |C-xC-f|  Nop |------|           |------|  Nop |  Nop | KillB|  Nop |  Nop |  Nop   |
+     * | IndentB|  Nop |C-xC-s|  Nop |C-xC-f|  C-g |------|           |------|  Nop |  Nop | KillB|  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
-     * |  Nop   |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  M-< |  M-> |  Nop |  Nop   |
+     * |  Nop   |  Nop |  C-x |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  M-< |  M-> |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   |  Nop | Layer|  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |  Nop |
+     *   |  Nop |  Nop |  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |  Nop |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        |  Nop |  Nop |       |  Nop |  Nop |
@@ -113,9 +113,9 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // left hand
          FN9, FN12, FN13, FN14,   NO,   NO,   NO,
          FN6,   NO,   NO,   NO,   NO, FN20,   NO,
-         FN7,   NO, FN15,   NO, FN10,   NO,
-          NO,   NO,   NO,   NO,   NO,   NO,   NO,
-          NO, FN29,   NO,   NO,   NO,
+         FN7,   NO, FN15,   NO, FN10, FN23,
+          NO,   NO, FN22,   NO,   NO,   NO,   NO,
+          NO,   NO,   NO,   NO,   NO,
                                         NO,   NO,
                                               NO,
                                 TRNS,   NO,   NO,
@@ -141,7 +141,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
      * |  TRNS  |  Nop |  Nop |  Nop |  Nop |  Nop |      |           |      |  Nop |   1  |   2  |   3  | TRNS |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | TRNS | Layer| TRNS | TRNS | TRNS |                                       |   0  |   0  |   .  | Btn1 | Btn2 |
+     *   | TRNS | TRNS | TRNS | TRNS | TRNS |                                       |   0  |   0  |   .  | Btn1 | Btn2 |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        | Btn2 |  Nop |       | Mute |  Nop |
@@ -158,7 +158,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TRNS,   NO, MS_U,   NO,   NO,   NO,  FN3,
           NO, MS_L, MS_D, MS_R,   NO,   NO,
         TRNS,   NO,   NO,   NO,   NO,   NO, TRNS,
-        TRNS, FN29, TRNS, TRNS, TRNS,
+        TRNS, TRNS, TRNS, TRNS, TRNS,
                                       BTN2, FN20,
                                             TRNS,
                                 BTN1, TRNS, TRNS,
@@ -184,7 +184,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
      * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | LCtrl| Layer| LGui | LAlt | LAlt |                                       |  Alt |  Nop |  Nop |  Nop | Ctrl |
+     *   | LCtrl| LCtrl| LGui | LAlt | LAlt |                                       |  Alt |  Nop |  Nop |  Nop | Ctrl |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        | Home | End  |       | Mute |  Nop |
@@ -201,7 +201,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          TAB,    Q,    W,    E,    R,    T,  FN0,
         BSLS,    A,    S,    D,    F,    G,
         LSFT,    Z,    X,    C,    V,    B,   NO,
-        LCTL, FN29, LGUI, LALT, LALT,
+        LCTL, LCTL, LGUI, LALT, LALT,
                                       HOME,  END,
                                             PGUP,
                                  SPC, BSPC, PGDN,
@@ -221,7 +221,6 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* id for user defined functions */
 enum function_id {
     BLINKENLIGHTS,
-    STATE_LAYER,
 };
 
 /* id for user-defined macros */
@@ -243,6 +242,8 @@ enum macro_id {
     THATS_WHAT_SHE_SAID,
     LOCK_MACHINE,
     KILL_BUFFER,
+    C_X,
+    C_G,
 };
 
 /*
@@ -271,8 +272,9 @@ static const uint16_t PROGMEM fn_actions[] = {
     [19] =     ACTION_MACRO(END_OF_BUFFER),                    // FN19 - M->
     [20] =     ACTION_MACRO(THATS_WHAT_SHE_SAID),              // FN20 - twss
     [21] =     ACTION_MACRO(KILL_BUFFER),                      // FN21 - kill current buffer
+    [22] =     ACTION_MACRO(C_X),                              // FN22 - C-x
+    [23] =     ACTION_MACRO(C_G),                              // FN23 - C-g
 
-    [29] =     ACTION_FUNCTION(STATE_LAYER),                   // FN29 - state layer
     [30] =     ACTION_FUNCTION(BLINKENLIGHTS),                 // FN30 - das blinkenlights
 }; // NOTE TO J: YOU ONLY HAVE 32 OF THESE TO PLAY WITH, BUT THERE MAY BE WAYS TO WORK AROUND THAT
 
@@ -341,38 +343,13 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             // C-x, k, enter
         case KILL_BUFFER:
             return SIMPLE_MACRO(C_X_COMMA, T(K), T(ENT));
+        case C_X:
+            return SIMPLE_MACRO(C_X_COMMA);
+        case C_G:
+            return SIMPLE_MACRO(C_(T(G)));
     }
 
     return MACRO_NONE;
-}
-
-void state_layer(keyevent_t event)
-{
-    uint8_t layer = biton32(layer_state);
-    const macro_t *macro;
-
-    switch (layer) {
-        case 0:
-            macro = SIMPLE_MACRO(T(D), T(E), T(F), T(A), T(U), T(L), T(T));
-            break;
-        case 1:
-            macro = SIMPLE_MACRO(T(C), T(L), T(E), T(A), T(N));
-            break;
-        case 2:
-            macro = SIMPLE_MACRO(T(M), T(A), T(C), T(R), T(O), T(S));
-            break;
-        case 3:
-            macro = SIMPLE_MACRO(T(N), T(U), T(M), T(B), T(E), T(R), T(S));
-            break;
-        case 4:
-            macro = SIMPLE_MACRO(T(G), T(A), T(M), T(I), T(N), T(G));
-            break;
-        default:
-            macro = SIMPLE_MACRO(T(V), SFT_(T(O)), T(V));
-            break;
-    }
-
-    action_macro_play(macro);
 }
 
 
@@ -388,9 +365,6 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
     switch (id) {
         case BLINKENLIGHTS:
             ergodox_blink_all_leds();
-            break;
-        case STATE_LAYER:
-            state_layer(event);
             break;
     }
 }
