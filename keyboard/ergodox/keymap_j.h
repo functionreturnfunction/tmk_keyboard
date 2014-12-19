@@ -92,11 +92,11 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  Lock  | C-x 1| C-x 2| C-x 3|  Nop |  Nop |  Nop |           |HomPth|  Nop |  Nop |  Nop |  Nop |  Nop | HshRckt|
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * | Indent |  Nop |  Nop |  Nop |  Nop | TWSS |  Nop |           |  M-{ |  Nop |  Nop |  Nop |  Nop |  Nop |  M-}   |
+     * | Indent |  Nop |  Nop |  Nop |  Nop |  Nop |  Nop |           |  M-{ |  Nop |  Nop |  Nop | C-x,o|  Nop |  M-}   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * | IndentB|  Nop |C-xC-s|  Nop |C-xC-f|  C-g |------|           |------|  Nop |  Nop | KillB|  Nop |  Nop |  Nop   |
      * |--------+------+------+------+------+------|  Nop |           |  Nop |------+------+------+------+------+--------|
-     * |  Nop   |  Nop |  C-x |  Nop |  Nop |  Nop |      |           |      |  Nop |  Nop |  M-< |  M-> |  Nop |  Nop   |
+     * |  Nop   |  Nop |  Nop |  Nop |  Nop | C-x,b|      |           |      |  Nop |  Nop |  M-< |  M-> |  Nop |  Nop   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
      *   |  Nop |  Nop |  Nop |  Nop |  Nop |                                       |  Nop |  Nop |  Nop |  Nop |  Nop |
      *   `----------------------------------'                                       `----------------------------------'
@@ -112,16 +112,16 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(
         // left hand
          FN9, FN12, FN13, FN14,   NO,   NO,   NO,
-         FN6,   NO,   NO,   NO,   NO, FN20,   NO,
+         FN6,   NO,   NO,   NO,   NO,   NO,   NO,
          FN7,   NO, FN15,   NO, FN10, FN23,
-          NO,   NO, FN22,   NO,   NO,   NO,   NO,
+          NO,   NO,   NO,   NO,   NO, FN20,   NO,
           NO,   NO,   NO,   NO,   NO,
                                         NO,   NO,
                                               NO,
                                 TRNS,   NO,   NO,
         // right hand
         FN11,   NO,   NO,   NO,   NO,   NO,  FN8,
-        FN16,   NO,   NO,   NO,   NO,   NO, FN17,
+        FN16,   NO,   NO,   NO, FN22,   NO, FN17,
                 NO,   NO, FN21,   NO,   NO,   NO,
           NO,   NO,   NO, FN18, FN19,   NO,   NO,
                       NO,   NO,   NO,   NO,   NO,
@@ -159,7 +159,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           NO, MS_L, MS_D, MS_R,   NO,   NO,
         TRNS,   NO,   NO,   NO,   NO,   NO, TRNS,
         TRNS, TRNS, TRNS, TRNS, TRNS,
-                                      BTN2, FN20,
+                                      BTN2,   NO,
                                             TRNS,
                                 BTN1, TRNS, TRNS,
         // right hand
@@ -242,7 +242,8 @@ enum macro_id {
     THATS_WHAT_SHE_SAID,
     LOCK_MACHINE,
     KILL_BUFFER,
-    C_X,
+    SWITCH_BUFFER,
+    OTHER_BUFFER,
     C_G,
 };
 
@@ -270,9 +271,9 @@ static const uint16_t PROGMEM fn_actions[] = {
     [17] =     ACTION_MACRO(FORWARD_PARAGRAPH),                // FN17 - M-}
     [18] =     ACTION_MACRO(BEGINNING_OF_BUFFER),              // FN18 - M-<
     [19] =     ACTION_MACRO(END_OF_BUFFER),                    // FN19 - M->
-    [20] =     ACTION_MACRO(THATS_WHAT_SHE_SAID),              // FN20 - twss
+    [20] =     ACTION_MACRO(SWITCH_BUFFER),                    // FN20 - C-x, b
     [21] =     ACTION_MACRO(KILL_BUFFER),                      // FN21 - kill current buffer
-    [22] =     ACTION_MACRO(C_X),                              // FN22 - C-x
+    [22] =     ACTION_MACRO(OTHER_BUFFER),                     // FN22 - C-x, o
     [23] =     ACTION_MACRO(C_G),                              // FN23 - C-g
 
     [30] =     ACTION_FUNCTION(BLINKENLIGHTS),                 // FN30 - das blinkenlights
@@ -334,17 +335,18 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             // M->
         case END_OF_BUFFER:
             return NAVIGATE_MACRO(DOT);
-            // twss
-        case THATS_WHAT_SHE_SAID:
-            return SIMPLE_MACRO(T(T), T(W), T(S), T(S));
+            // C-x, b
+        case SWITCH_BUFFER:
+            return SIMPLE_MACRO(C_X_COMMA, T(B));
+            // C-x, o
+        case OTHER_BUFFER:
+            return SIMPLE_MACRO(C_X_COMMA, T(O));
             // Win+L
         case LOCK_MACHINE:
             return SIMPLE_MACRO(D(LGUI), T(L), U(LGUI));
             // C-x, k, enter
         case KILL_BUFFER:
             return SIMPLE_MACRO(C_X_COMMA, T(K), T(ENT));
-        case C_X:
-            return SIMPLE_MACRO(C_X_COMMA);
         case C_G:
             return SIMPLE_MACRO(C_(T(G)));
     }
