@@ -27,7 +27,7 @@ Project located at <https://github.com/benblazak/ergodox-firmware>
 
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x1111
+#define PRODUCT_ID      0x1307
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    TMK/FRF
 #define PRODUCT         Ergodox
@@ -35,6 +35,11 @@ Project located at <https://github.com/benblazak/ergodox-firmware>
 
 #define MATRIX_ROWS 14
 #define MATRIX_COLS 6
+
+#define MOUSEKEY_DELAY          100
+#define MOUSEKEY_INTERVAL       20
+#define MOUSEKEY_MAX_SPEED      3
+#define MOUSEKEY_TIME_TO_MAX    10
 
 /* define if matrix has ghost */
 //#define MATRIX_HAS_GHOST
@@ -51,7 +56,7 @@ Project located at <https://github.com/benblazak/ergodox-firmware>
  * And so, there is no sense to have DEBOUNCE higher than 2.
  */
 #define DEBOUNCE        2
-#define TAPPING_TERM    250
+#define TAPPING_TERM    230
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
@@ -60,6 +65,7 @@ Project located at <https://github.com/benblazak/ergodox-firmware>
 
 /* key combination for command */
 #define IS_COMMAND() ( \
+    keyboard_report->mods == (MOD_BIT(KC_LCTL) | MOD_BIT(KC_RCTL)) || \
     keyboard_report->mods == (MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT)) \
 )
 
@@ -82,6 +88,6 @@ Project located at <https://github.com/benblazak/ergodox-firmware>
 //#define NO_ACTION_ONESHOT
 //#define NO_ACTION_MACRO
 //#define NO_ACTION_FUNCTION
-//#define DEBUG_MATRIX_FREQ
+//#define DEBUG_MATRIX_SCAN_RATE
 
 #endif

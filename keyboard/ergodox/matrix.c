@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "matrix.h"
 #include "ergodox.h"
 #include "i2cmaster.h"
-#ifdef DEBUG_MATRIX_FREQ
+#ifdef DEBUG_MATRIX_SCAN_RATE
 #include  "timer.h"
 #endif
 
@@ -49,7 +49,7 @@ static void select_row(uint8_t row);
 
 static uint8_t mcp23018_reset_loop;
 
-#ifdef DEBUG_MATRIX_FREQ
+#ifdef DEBUG_MATRIX_SCAN_RATE
 uint32_t matrix_timer;
 uint32_t matrix_scan_count;
 #endif
@@ -81,7 +81,7 @@ void matrix_init(void)
         matrix_debouncing[i] = 0;
     }
 
-#ifdef DEBUG_MATRIX_FREQ
+#ifdef DEBUG_MATRIX_SCAN_RATE
     matrix_timer = timer_read32();
     matrix_scan_count = 0;
 #endif
@@ -104,7 +104,7 @@ uint8_t matrix_scan(void)
         }
     }
 
-#ifdef DEBUG_MATRIX_FREQ
+#ifdef DEBUG_MATRIX_SCAN_RATE
     matrix_scan_count++;
 
     uint32_t timer_now = timer_read32();
@@ -150,8 +150,13 @@ uint8_t matrix_scan(void)
         case 4:
         case 5:
         case 7:
-            // red
+            // white
             ergodox_left_led_1_on();
+            break;
+        case 9:
+            // white+green
+            ergodox_left_led_1_on();
+            ergodox_left_led_3_on();
             break;
         default:
             // none

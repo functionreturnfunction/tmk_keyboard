@@ -20,8 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <util/delay.h>
 #include "keycode.h"
 #include "action.h"
+#include "action_util.h"
 #include "action_code.h"
 #include "action_macro.h"
+#include "action_layer.h"
 #include "bootloader.h"
 #include "report.h"
 #include "host.h"
@@ -162,7 +164,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            TRNS,
                                  TRNS,TRNS,TRNS,
         // right hand
-             SLCK,NLCK,PSLS,PAST,PAST,PMNS,BSPC,
+             TRNS,NLCK,PSLS,PAST,PAST,PMNS,BSPC,
              TRNS,NO,  P7,  P8,  P9,  PMNS,BSPC,
                   NO,  P4,  P5,  P6,  PPLS,PENT,
              TRNS,NO,  P1,  P2,  P3,  PPLS,PENT,
@@ -185,9 +187,9 @@ enum function_id {
 static const uint16_t PROGMEM fn_actions[] = {
     ACTION_FUNCTION(TEENSY_KEY),                    // FN0 - Teensy key
     ACTION_LAYER_MOMENTARY(1),                      // FN1 - switch to Layer1
-    ACTION_LAYER_SET(2, ON_PRESS),                  // FN2 - push Layer2
-    ACTION_LAYER_SET(3, ON_PRESS),                  // FN3 - push Layer3
-    ACTION_LAYER_SET(0, ON_PRESS),                  // FN4 - push Layer0
+    ACTION_LAYER_SET(2, ON_PRESS),                  // FN2 - set Layer2
+    ACTION_LAYER_TOGGLE(3),                         // FN3 - toggle Layer3 aka Numpad layer
+    ACTION_LAYER_SET(0, ON_PRESS),                  // FN4 - set Layer0
 };
 
 void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
@@ -208,7 +210,7 @@ void action_function(keyrecord_t *event, uint8_t id, uint8_t opt)
 #define FN_ACTIONS_SIZE (sizeof(fn_actions) / sizeof(fn_actions[0]))
 
 /* translates key to keycode */
-uint8_t keymap_key_to_keycode(uint8_t layer, key_t key)
+uint8_t keymap_key_to_keycode(uint8_t layer, keypos_t key)
 {
     if (layer < KEYMAPS_SIZE) {
         return pgm_read_byte(&keymaps[(layer)][(key.row)][(key.col)]);
@@ -218,6 +220,11 @@ uint8_t keymap_key_to_keycode(uint8_t layer, key_t key)
     }
 }
 
+#if defined(KEYMAP_CUB)
+
+// function keymap_fn_to_action will be defined in keymap_cub.h
+
+#else
 /* translates Fn keycode to action */
 action_t keymap_fn_to_action(uint8_t keycode)
 {
@@ -229,4 +236,5 @@ action_t keymap_fn_to_action(uint8_t keycode)
     }
     return action;
 }
+#endif
 

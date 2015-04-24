@@ -53,6 +53,15 @@ You can find some keyboard specific projects under `converter` and `keyboard` di
 * [macway](keyboard/macway/)                - [Compact keyboard mod][GH_macway] [retired]
 * [KMAC](keyboard/kmac/)                    - Korean custom keyboard
 * [Lightsaber](keyboard/lightsaber/)        - Korean custom keyboard
+* [Infinity](keyboard/infinity/)            - Massdrop [Infinity keyboard][Infinity]
+* [NerD](keyboard/nerd/)                    - Korean custom keyboard
+* [KittenPaw](keyboard/kitten_paw)          - Custom Majestouch controller
+* [Lightpad](keyboard/lightpad)             - Korean custom keypad
+* [ghost_squid](keyboard/ghost_squid/)      - [The Ghost Squid][ghost_squid] controller for [Cooler Master QuickFire XT][cmxt]
+* [ErgoDox](keyboard/ergodox/)              - [Ergonomic keyboard][ergodox_org] [with split design][GH_ergodox] (see [Ergodox-FAQ.md](keyboard/ergodox/Ergodox-FAQ.md))
+
+### Extenal projects using tmk_keyboard
+* [mcdox][mcdox_tmk]                        - [mcdox][mcdox]
 
 [GH_macway]:    http://geekhack.org/showwiki.php?title=Island:11930
 [GH_hhkb]:      http://geekhack.org/showwiki.php?title=Island:12047
@@ -65,6 +74,7 @@ You can find some keyboard specific projects under `converter` and `keyboard` di
 [GH_x68k]:      http://geekhack.org/showwiki.php?title=Island:29060
 [GH_hbkb]:      http://geekhack.org/showwiki.php?title=Island:29483
 [GH_ibm4704]:   http://geekhack.org/index.php?topic=54706.0
+[GH_ergodox]:   http://geekhack.org/index.php?topic=48106.0
 [HID_liber]:    http://deskthority.net/wiki/HID_Liberation_Device_-_DIY_Instructions
 [Phantom]:      http://geekhack.org/index.php?topic=26742
 [GH60]:         http://geekhack.org/index.php?topic=34959
@@ -72,6 +82,13 @@ You can find some keyboard specific projects under `converter` and `keyboard` di
 [PC98]:         http://en.wikipedia.org/wiki/NEC_PC-9801
 [Sun]:          http://en.wikipedia.org/wiki/Sun-3
 [IIGS]:         http://en.wikipedia.org/wiki/Apple_IIGS
+[Infinity]:     https://www.massdrop.com/buy/infinity-keyboard-kit
+[ghost_squid]:  http://deskthority.net/wiki/Costar_replacement_controllers#The_Ghost_Squid
+[cmxt]:         http://gaming.coolermaster.com/en/products/keyboards/quickfirext/
+[ergodox_org]:  http://ergodox.org/
+[cub-uanic]:    https://github.com/cub-uanic/tmk_keyboard/tree/master/keyboard/ergodox
+[mcdox]:        https://github.com/DavidMcEwan/mcdox
+[mcdox_tmk]:    https://github.com/DavidMcEwan/tmk_keyboard/tree/master/keyboard/mcdox
 
 
 
@@ -276,4 +293,4 @@ Coding Style
 
 Other Keyboard Firmware Projects
 ------------------
-See [doc/other_projects.md](doc/other_projects.md).
+You can learn a lot about keyboard firmware from these. See [doc/other_projects.md](doc/other_projects.md).
