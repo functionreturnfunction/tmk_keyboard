@@ -135,7 +135,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |  L0    |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |  Nop   |
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * |  TRNS  |  Nop |MousUp|  Nop |  Nop |  Nop |  L4  |           |  L2  |  Nop |   7  |   8  |   9  |  Nop |  Nop   |
+     * |  TRNS  |  Nop |MousUp|  Nop |  Nop |  Nop |  L4  |           |  L2  |  Nop |   7  |   8  |   9  |  NUM |  Nop   |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * |  Nop   |MousLf|MousDn|MousRt|  Nop |  Nop |------|           |------|  Nop |   4  |   5  |   6  |  Nop |  Nop   |
      * |--------+------+------+------+------+------| TRNS |           | TRNS |------+------+------+------+------+--------|
@@ -164,7 +164,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 BTN1, TRNS, TRNS,
         // right hand
           F7,   F8,   F9,  F10,  F11,  F12,   NO,
-         FN4,   NO,   P7,   P8,   P9,   NO,   NO,
+         FN4,   NO,   P7,   P8,   P9, NLCK,   NO,
                 NO,   P4,   P5,   P6,   NO,   NO,
         TRNS,   NO,   P1,   P2,   P3, TRNS,   NO,
                       P0,   P0,  DOT, BTN1, BTN2,
@@ -322,7 +322,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             return SIMPLE_MACRO(C_X_COMMA, T(3));
             // C-x, C-s
         case SAVE_BUFFER:
-            return SIMPLE_MACRO(C_(T(X), T(S)));
+            return SIMPLE_MACRO(C_(T(X)), C_(T(S)), U(LCTRL));
             // M-{
         case BACKWARD_PARAGRAPH:
             return NAVIGATE_MACRO(LBRC);
