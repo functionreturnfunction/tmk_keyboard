@@ -126,6 +126,3 @@ include $(TMK_DIR)/protocol.mk
 include $(TMK_DIR)/protocol/lufa.mk
 include $(TMK_DIR)/common.mk
 include $(TMK_DIR)/rules.mk
-
-j: OPT_DEFS += -DKEYMAP_J
-j: all
