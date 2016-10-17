@@ -104,7 +104,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                                        |  Nop |  Nop |       |  Nop |  Nop |
      *                                 ,------|------|------|       |------+------+------.
      *                                 |      |      |  Nop |       |  Nop |      |      |
-     *                                 | TRNS |  Nop |------|       |------|  Nop | LEDs |
+     *                                 | TRNS |  Nop |------|       |------|  Nop | Nop  |
      *                                 |      |      |  Nop |       |  Nop |      |      |
      *                                 `--------------------'       `--------------------'
      */
@@ -127,7 +127,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                       NO,   NO,   NO,   NO,   NO,
           NO,   NO,
           NO,
-          NO,   NO, FN30
+          NO,   NO,   NO
     ),
 
     /* Keymap 3: Fn keys, number pad, mouse controls
