@@ -2,7 +2,7 @@
 TARGET = ibm4704_usb
 
 # Directory common source filess exist
-TOP_DIR = ../..
+TMK_DIR = ../../tmk_core
 
 # Directory keyboard dependent files exist
 TARGET_DIR = .
@@ -23,8 +23,8 @@ CONFIG_H = config.h
 
 
 # MCU name
-#MCU = at90usb1287
-MCU = atmega32u4
+# TMK Converter rev.2
+MCU ?= atmega32u2
 
 # Processor frequency.
 #     This will define a symbol, F_CPU, in all source code files equal to the
@@ -85,9 +85,9 @@ COMMAND_ENABLE = yes    # Commands for debug and configuration
 
 # Search Path
 VPATH += $(TARGET_DIR)
-VPATH += $(TOP_DIR)
+VPATH += $(TMK_DIR)
 
-include $(TOP_DIR)/protocol.mk
-include $(TOP_DIR)/protocol/lufa.mk
-include $(TOP_DIR)/common.mk
-include $(TOP_DIR)/rules.mk
+include $(TMK_DIR)/protocol.mk
+include $(TMK_DIR)/protocol/lufa.mk
+include $(TMK_DIR)/common.mk
+include $(TMK_DIR)/rules.mk

@@ -156,4 +156,3 @@ out:
     i2c_stop();
     return mcp23018_status;
 }
-

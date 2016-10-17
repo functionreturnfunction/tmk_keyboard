@@ -42,17 +42,23 @@
 TARGET = ergodox_pjrc
 
 # Directory common source filess exist
-TOP_DIR = ../..
+TMK_DIR = ../../tmk_core
 
 # Directory keyboard dependent files exist
 TARGET_DIR = .
 
 # project specific files
-SRC =	keymap.c \
+SRC =	keymap_common.c \
 	matrix.c \
 	led.c \
 	ergodox.c \
 	twimaster.c
+
+ifdef KEYMAP
+    SRC := keymap_$(KEYMAP).c $(SRC)
+else
+    SRC := keymap_blazak.c $(SRC)
+endif
 
 CONFIG_H = config.h
 
@@ -94,6 +100,7 @@ INVERT_NUMLOCK = yes 	# invert state of NumLock led
 
 # Search Path
 VPATH += $(TARGET_DIR)
+<<<<<<< HEAD
 VPATH += $(TOP_DIR)
 
 include $(TOP_DIR)/protocol.mk
@@ -118,4 +125,11 @@ cub: all
 
 j: OPT_DEFS += -DKEYMAP_J
 j: all
+=======
+VPATH += $(TMK_DIR)
+>>>>>>> base/master
 
+include $(TMK_DIR)/protocol.mk
+include $(TMK_DIR)/protocol/pjrc.mk
+include $(TMK_DIR)/common.mk
+include $(TMK_DIR)/rules.mk
