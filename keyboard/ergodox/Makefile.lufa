@@ -118,6 +118,9 @@ EXTRAKEY_ENABLE		= yes	# Audio control and System control(+600)
 #COMMAND_ENABLE		= yes	# Commands for debug and configuration
 SLEEP_LED_ENABLE	= yes	# Breathing sleep LED during USB suspend
 
+j: OPT_DEFS += -DKEYMAP_J
+j: all
+
 # Search Path
 VPATH += $(TARGET_DIR)
 VPATH += $(TMK_DIR)
