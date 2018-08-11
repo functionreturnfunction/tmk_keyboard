@@ -180,7 +180,7 @@ enum function_id {
 /*
  * Fn action definition
  */
-const uint16_t PROGMEM fn_actions[] = {
+const action_t PROGMEM fn_actions[] = {
     // Layer shifting
     [0] = ACTION_LAYER_SET(0, ON_PRESS),           // Switch to Layer 0
     [1] = ACTION_LAYER_MOMENTARY(1),               // Momentarily switch to layer 1
