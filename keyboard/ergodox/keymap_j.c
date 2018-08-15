@@ -254,7 +254,7 @@ enum macro_id {
 /*
  * Fn action definition
  */
-const uint16_t PROGMEM fn_actions[] = {
+const action_t PROGMEM fn_actions[] = {
     [ 0] =     ACTION_LAYER_SET(0, ON_RELEASE),                // FN0  - switch to layer0
     [ 1] =     ACTION_LAYER_TAP_TOGGLE(3),                     // FN1  - tap/toggle Layer3
     [ 2] =     ACTION_LAYER_TAP_KEY(2, KC_SPC),                // FN2  - space when tapped, layer2 when held
